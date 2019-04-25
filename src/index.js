@@ -10,9 +10,11 @@ import Atividades from './Atividades'
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import CriarConta from './CriarConta';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
     <BrowserRouter>
+    
         <Switch>
             <Route path="/" exact={true} component={App }/>
             <Route path="/atividades" exact={true} component={Atividades }/>
