@@ -9,7 +9,47 @@ class CriarConta extends React.Component {
   constructor(...args) {
     super(...args);
 
-    this.state = { validated: false };
+    this.state = {
+      validated: false,
+      nome: "",
+      sobrenome: "",
+      email: "",
+      cidade: "",
+      estado: "",
+      cep: "",
+      data: "",
+      senha: ""
+    };
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  async adicionarConta() {
+    try {
+      var data = {
+        nome: this.state.nome,
+        sobrenome: this.state.sobrenome,
+        email: this.state.email,
+        cidade: this.state.cidade,
+        estado: this.state.estado,
+        cep: this.state.cep,
+        data: this.state.data,
+        senha: this.state.senha
+      };
+      fetch("http://localhost:5000/api/insereConta", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin":"http://localhost:3000",
+          "Access-Control-Allow-Credentials":"true"
+        },
+        body: JSON.stringify(data)
+      })
+        .then(res => res.json())
+        .then(data => console.log(data));
+    } catch (error) {
+      console.log(`Erro! : ${error}`);
+    }
   }
 
   handleSubmit(event) {
@@ -17,16 +57,20 @@ class CriarConta extends React.Component {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
-    } else {
-      console.log(event.value);
     }
-    this.setState({ validated: true });
+    this.setState({
+      validated: true,
+      nome: event.currentTarget.nome
+    });
+    this.adicionarConta();
   }
 
-  handleClick() {
-    
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value
+    });
   }
-
   render() {
     const { validated } = this.state;
 
@@ -42,15 +86,36 @@ class CriarConta extends React.Component {
             <Form.Row>
               <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label>Nome</Form.Label>
-                <Form.Control required type="text" placeholder="Nome" />
+                <Form.Control
+                  required
+                  type="text"
+                  name="nome"
+                  placeholder="Nome"
+                  onChange={this.handleChange}
+                />
                 <Form.Control.Feedback>Tudo certo!</Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="4" controlId="validationCustom02">
+              <Form.Group
+                as={Col}
+                md="4"
+                controlId="validationCustom02"
+                onChange={this.handleChange}
+              >
                 <Form.Label>Sobrenome</Form.Label>
-                <Form.Control required type="text" placeholder="Sobrenome" />
+                <Form.Control
+                  required
+                  type="text"
+                  name="sobrenome"
+                  placeholder="Sobrenome"
+                />
                 <Form.Control.Feedback>Tudo certo!</Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="4" controlId="validationCustomUsername">
+              <Form.Group
+                as={Col}
+                md="4"
+                controlId="validationCustomUsername"
+                onChange={this.handleChange}
+              >
                 <Form.Label>Email</Form.Label>
                 <InputGroup>
                   <InputGroup.Prepend>
@@ -60,6 +125,7 @@ class CriarConta extends React.Component {
                   </InputGroup.Prepend>
                   <Form.Control
                     type="text"
+                    name="email"
                     placeholder="Email"
                     aria-describedby="inputGroupPrepend"
                     required
@@ -71,34 +137,82 @@ class CriarConta extends React.Component {
               </Form.Group>
             </Form.Row>
             <Form.Row>
-              <Form.Group as={Col} md="6" controlId="validationCustom03">
+              <Form.Group
+                as={Col}
+                md="6"
+                controlId="validationCustom03"
+                onChange={this.handleChange}
+              >
                 <Form.Label>Cidade</Form.Label>
-                <Form.Control type="text" placeholder="Cidade" required />
+                <Form.Control
+                  type="text"
+                  placeholder="Cidade"
+                  name="cidade"
+                  required
+                />
                 <Form.Control.Feedback type="invalid">
                   Cidade inválida.
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="3" controlId="validationCustom04">
+              <Form.Group
+                as={Col}
+                md="3"
+                controlId="validationCustom04"
+                onChange={this.handleChange}
+              >
                 <Form.Label>Estado</Form.Label>
-                <Form.Control type="text" placeholder="Estado" required />
+                <Form.Control
+                  type="text"
+                  placeholder="Estado"
+                  name="estado"
+                  required
+                />
                 <Form.Control.Feedback type="invalid">
                   Estado inválido.
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="3" controlId="validationCustom05">
+              <Form.Group
+                as={Col}
+                md="3"
+                controlId="validationCustom05"
+                onChange={this.handleChange}
+              >
                 <Form.Label>CEP</Form.Label>
-                <Form.Control type="text" placeholder="CEP" required />
+                <Form.Control
+                  type="text"
+                  name="cep"
+                  placeholder="CEP"
+                  required
+                />
                 <Form.Control.Feedback type="invalid">
                   CEP inválido.
                 </Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
             <Form.Row>
-              <Form.Group as={Col} md="3" controlId="validCustom06">
+              <Form.Group
+                as={Col}
+                md="3"
+                controlId="validCustom08"
+                onChange={this.handleChange}
+              >
+                <Form.Label>Data de nascimento</Form.Label>
+                <Form.Control type="date" name="data" required />
+                <Form.Control.Feedback type="invalid">
+                  Data inválida.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group
+                as={Col}
+                md="3"
+                controlId="validCustom06"
+                onChange={this.handleChange}
+              >
                 <Form.Label>Senha</Form.Label>
                 <Form.Control
                   value={this.state.pass1}
                   type="password"
+                  name="senha"
                   placeholder="Senha"
                   required
                 />
@@ -106,7 +220,13 @@ class CriarConta extends React.Component {
                   Senha inválida.
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md="3" controlId="validCustom07">
+
+              <Form.Group
+                as={Col}
+                md="3"
+                controlId="validCustom07"
+                onChange={this.handleChange}
+              >
                 <Form.Label>Confirme a Senha</Form.Label>
                 <Form.Control
                   value={this.state.pass2}
@@ -126,9 +246,8 @@ class CriarConta extends React.Component {
             </Form.Group>
             <Button type="submit">Criar Conta</Button>
           </Form>
-          <Button type="primary" onClick={this.handleClick.bind(this)}>
-            Teste
-          </Button>
+          <br />
+          <Button onClick={this.handleSubmit.bind(this)}>Teste</Button>
         </div>
       </div>
     );
