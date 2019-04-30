@@ -19,13 +19,15 @@ class CriarConta extends React.Component {
       estado: "",
       cep: "",
       data: "",
-      senha: ""
+      senha: "",
+      accountOk:false
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   async adicionarConta() {
     try {
+      let idGot = await this.getIdFromApi();
       var data = {
         nome: this.state.nome,
         sobrenome: this.state.sobrenome,
@@ -34,9 +36,10 @@ class CriarConta extends React.Component {
         estado: this.state.estado,
         cep: this.state.cep,
         data: this.state.data,
+        id: idGot,
         senha: this.state.senha
       };
-      fetch("http://localhost:5000/api/insereConta", {
+      fetch("/api/insereConta", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -45,26 +48,36 @@ class CriarConta extends React.Component {
         body: JSON.stringify(data)
       })
         .then(res => {
-          res.json();
+          this.setState({accountOk:res.ok});
+          if(res.ok){
+            if(alert("Conta criada com sucesso!")){
+
+            }else{
+              //redirecionar para profile
+              window.location.reload();
+            }
+            
+          }
         })
-        .then(data => console.log(data));
     } catch (error) {
       console.log(`Erro! : ${error}`);
     }
   }
 
   handleSubmit(event) {
+    //const nomeInserted = this.state.nome;
     const form = event.currentTarget;
+    let alertObj;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      this.adicionarConta();
+      this.adicionarConta()
     }
     this.setState({
-      validated: true,
-      nome: event.currentTarget.nome
+      validated: true
     });
+    return alertObj;
   }
 
   handleChange(event) {
@@ -74,23 +87,15 @@ class CriarConta extends React.Component {
     });
   }
 
-  componentDidMount() {
-    this.callApi()
-      .then(res => {
-        this.setState({ response: res.express });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  callApi = async () => {
-    const response = await fetch("/api/mensagem");
+  getIdFromApi = async () => {
+    const response = await fetch("/api/getId");
     const body = await response.json();
     if (response.status !== 200) throw Error(body.message);
-    console.log(body.recordset);
-    return body;
+    let id = body.recordset[body.rowsAffected - 1].id + 1;
+    return id;
   };
+
+  
 
   render() {
     const { validated } = this.state;

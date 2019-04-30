@@ -39,34 +39,58 @@ app.get("/api/mensagem", (req, res) => {
   });
 });
 
+app.get("/api/getId", (req, res) => {
+  sql.close();
+  sql.connect(config, err => {
+    if (err) console.log(err);
+    var request = new sql.Request();
+    request.query("select id from usuarios", (err, recordset) => {
+      if (err) console.log(err);
+      res.send(recordset);
+    });
+  });
+});
+
+app.get("/api/login", (req, res) => {
+  sql.close();
+  sql.connect(config, err => {
+    if (err) console.log(err);
+    var request = new sql.Request();
+    request.query("select * from usuarios where email='"+req.body.email+"' and senha='"+req.body.senha+"'", (err, recordset) => {
+      if (err) console.log(err);
+      res.send(recordset);
+    });
+  });
+});
+
 app.post("/api/insereConta", (req, res) => {
   sql.close();
   var postData = req.body;
   sql.connect(config, err => {
     if (err) console.log("Erro! " + err);
-    console.log(postData.nome)
     var request = new sql.Request();
-    request.query(
-      "insert into usuarios (id, permissao, nome, sobrenome, email, cidade, cep, estado, senha) values (2,1," +
-        postData.nome +
-        "," +
-        postData.sobrenome +
-        "," +
-        postData.email +
-        "," +
-        postData.cidade +
-        "," +
-        postData.cep +
-        "," +
-        postData.estado +
-        "," +
-        postData.senha +
-        ")",
-      (error, results, fields) => {
-        if (error) throw error;
-        res.end(JSON.stringify(results));
-        console.log("Success!");
-      }
-    );
+    var queryStr =
+      "insert into usuarios (id, permissao, nome, sobrenome, email, cidade, cep, estado, senha) values (" +
+      postData.id +
+      ",1,'" +
+      postData.nome +
+      "','" +id
+      postData.sobrenome +
+      "','" +
+      postData.email +
+      "','" +
+      postData.cidade +
+      "','" +
+      postData.cep +
+      "','" +
+      postData.estado +
+      "','" +
+      postData.senha +
+      "')";
+    request.query(queryStr, (error, results, fields) => {
+	  if (error) throw error;
+	  res.send(200);
+      res.end(JSON.stringify(results));
+    });
   });
 });
