@@ -10,6 +10,7 @@ class CriarConta extends React.Component {
     super(...args);
 
     this.state = {
+      response: "",
       validated: false,
       nome: "",
       sobrenome: "",
@@ -38,14 +39,14 @@ class CriarConta extends React.Component {
       fetch("http://localhost:5000/api/insereConta", {
         method: "POST",
         headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin":"http://localhost:3000",
-          "Access-Control-Allow-Credentials":"true"
+          Accept: "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(data)
       })
-        .then(res => res.json())
+        .then(res => {
+          res.json();
+        })
         .then(data => console.log(data));
     } catch (error) {
       console.log(`Erro! : ${error}`);
@@ -57,12 +58,13 @@ class CriarConta extends React.Component {
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    } else {
+      this.adicionarConta();
     }
     this.setState({
       validated: true,
       nome: event.currentTarget.nome
     });
-    this.adicionarConta();
   }
 
   handleChange(event) {
@@ -71,6 +73,25 @@ class CriarConta extends React.Component {
       [name]: value
     });
   }
+
+  componentDidMount() {
+    this.callApi()
+      .then(res => {
+        this.setState({ response: res.express });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
+  callApi = async () => {
+    const response = await fetch("/api/mensagem");
+    const body = await response.json();
+    if (response.status !== 200) throw Error(body.message);
+    console.log(body.recordset);
+    return body;
+  };
+
   render() {
     const { validated } = this.state;
 
@@ -78,11 +99,7 @@ class CriarConta extends React.Component {
       <div>
         <NavBar />
         <div>
-          <Form
-            noValidate
-            validated={validated}
-            onSubmit={e => this.handleSubmit(e)}
-          >
+          <Form noValidate validated={validated}>
             <Form.Row>
               <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label>Nome</Form.Label>
@@ -244,10 +261,9 @@ class CriarConta extends React.Component {
                 feedback="Você deve concordar com os termos para continuar."
               />
             </Form.Group>
-            <Button type="submit">Criar Conta</Button>
+            <Button onClick={e => this.handleSubmit(e)}>Criar Conta</Button>
           </Form>
           <br />
-          <Button onClick={this.handleSubmit.bind(this)}>Teste</Button>
         </div>
       </div>
     );
