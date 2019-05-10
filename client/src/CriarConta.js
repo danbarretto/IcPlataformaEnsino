@@ -20,7 +20,7 @@ class CriarConta extends React.Component {
       cep: "",
       data: "",
       senha: "",
-      accountOk:false
+      accountOk: false
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -39,26 +39,25 @@ class CriarConta extends React.Component {
         id: idGot,
         senha: this.state.senha
       };
-      fetch("/api/insereConta", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      })
-        .then(res => {
-          this.setState({accountOk:res.ok});
-          if(res.ok){
-            if(alert("Conta criada com sucesso!")){
-
-            }else{
+      if (idGot !== undefined) {
+        fetch("/api/insereConta", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        }).then(res => {
+          this.setState({ accountOk: res.ok });
+          if (res.ok) {
+            if (alert("Conta criada com sucesso!")) {
+            } else {
               //redirecionar para profile
               window.location.reload();
             }
-            
           }
-        })
+        });
+      }
     } catch (error) {
       console.log(`Erro! : ${error}`);
     }
@@ -72,7 +71,7 @@ class CriarConta extends React.Component {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      this.adicionarConta()
+      this.adicionarConta();
     }
     this.setState({
       validated: true
@@ -94,8 +93,6 @@ class CriarConta extends React.Component {
     let id = body.recordset[body.rowsAffected - 1].id + 1;
     return id;
   };
-
-  
 
   render() {
     const { validated } = this.state;
