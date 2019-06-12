@@ -40,7 +40,7 @@ class CriarConta extends React.Component {
         senha: this.state.senha
       };
       if (idGot !== undefined) {
-        fetch("/api/insereConta", {
+        fetch("http://localhost:3000/api/insereConta", {
           method: "POST",
           headers: {
             Accept: "application/json",
