@@ -20,6 +20,7 @@ class CriarConta extends React.Component {
       cep: "",
       data: "",
       senha: "",
+      cpf:"",
       accountOk: false
     };
     this.handleChange = this.handleChange.bind(this);
@@ -27,7 +28,6 @@ class CriarConta extends React.Component {
 
   async adicionarConta() {
     try {
-      let idGot = await this.getIdFromApi();
       var data = {
         nome: this.state.nome,
         sobrenome: this.state.sobrenome,
@@ -36,11 +36,11 @@ class CriarConta extends React.Component {
         estado: this.state.estado,
         cep: this.state.cep,
         data: this.state.data,
-        id: idGot,
-        senha: this.state.senha
+        senha: this.state.senha,
+        cpf:this.state.cpf
       };
-      if (idGot !== undefined) {
-        fetch("http://localhost:3000/api/insereConta", {
+      if (data !== undefined) {
+        fetch("http://localhost:5000/api/insereConta", {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -86,13 +86,6 @@ class CriarConta extends React.Component {
     });
   }
 
-  getIdFromApi = async () => {
-    const response = await fetch("/api/getId");
-    const body = await response.json();
-    if (response.status !== 200) throw Error(body.message);
-    let id = body.recordset[body.rowsAffected - 1].id + 1;
-    return id;
-  };
 
   render() {
     const { validated } = this.state;
@@ -103,7 +96,7 @@ class CriarConta extends React.Component {
         <div>
           <Form noValidate validated={validated}>
             <Form.Row>
-              <Form.Group as={Col} md="4" controlId="validationCustom01">
+              <Form.Group as={Col} md="3" controlId="validationCustom01">
                 <Form.Label>Nome</Form.Label>
                 <Form.Control
                   required
@@ -116,7 +109,7 @@ class CriarConta extends React.Component {
               </Form.Group>
               <Form.Group
                 as={Col}
-                md="4"
+                md="3"
                 controlId="validationCustom02"
                 onChange={this.handleChange}
               >
@@ -131,7 +124,27 @@ class CriarConta extends React.Component {
               </Form.Group>
               <Form.Group
                 as={Col}
-                md="4"
+                md="3"
+                controlId="cpf"
+                onChange={this.handleChange}
+              >
+                <Form.Label>CPF</Form.Label>
+                <InputGroup>
+                  <Form.Control
+                    type="text"
+                    name="cpf"
+                    placeholder="CPF"
+                    aria-describedby="inputGroupPrepend"
+                    required
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Digite um cpf válido.
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+              <Form.Group
+                as={Col}
+                md="3"
                 controlId="validationCustomUsername"
                 onChange={this.handleChange}
               >

@@ -6,6 +6,7 @@ import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import Form from "react-bootstrap/Form";
+import {Redirect} from 'react-router-dom'
 
 class NavBar extends React.Component {
   constructor(...args) {
@@ -13,28 +14,44 @@ class NavBar extends React.Component {
     this.state = {
       email: "",
       senha: "",
-      loggedIn: false
+      loggedIn: false,
+      loginResult:null
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
-  login = async () => {
+  login(){
     
-    var loginData = {
-      email: this.state.email,
-      senha: this.state.senha
-    };
-    fetch("http://localhost:5000/api/login", {
-      method: "POST",
+    fetch(`http://localhost:5000/api/login?email=${this.state.email}&senha=${this.state.senha}`, {
+      method: "GET",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify(loginData)
     }).then(res => {
-      console.log(res);
-    });
-  };
+      res.json().then(result => {
+        if(result!==null){
+          
+          this.setState({loggedIn:true})
+          localStorage.clear()
+          localStorage.setItem("nome", result.nome)
+          localStorage.setItem("sobrenome", result.sobrenome)
+          localStorage.setItem("id", result.id)
+          localStorage.setItem("permissao", result.permissao)
+          localStorage.setItem("cidade", result.cidade)
+          localStorage.setItem("cep", result.cep)
+          localStorage.setItem("email", result.email)
+          localStorage.setItem("cpf", result.cpf)
+          localStorage.setItem("estado", result.estado)
+          return <Redirect to='/aulas'></Redirect>;
+      }
+        
+      })
+      
+    }).catch(err => (console.log(err)));
+  }
+
+  
 
   handleChange(event) {
     const { name, value } = event.target;

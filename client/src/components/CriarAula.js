@@ -40,8 +40,8 @@ class CriarAula extends React.Component {
     let reader = new FileReader();
     reader.readAsDataURL(file[0]);
     reader.onload = e => {
-      console.warn("data: ", e.target.result);
-      const url = "http://localhost:3000/api/fileReceive";
+      //console.warn("data: ", e.target.result);
+      const url = "http://localhost:5000/api/fileReceive";
       const formData = { file: e.target.result };
       return this.post(url, formData);
     };
