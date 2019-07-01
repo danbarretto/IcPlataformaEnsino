@@ -6,7 +6,7 @@ import ButtonToolbar from "react-bootstrap/ButtonToolbar";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import Form from "react-bootstrap/Form";
-import { Redirect } from 'react-router-dom'
+var sha512 = require('js-sha512').sha512
 
 class NavBar extends React.Component {
   constructor(...args) {
@@ -22,8 +22,7 @@ class NavBar extends React.Component {
   }
 
   login() {
-
-    fetch(`http://localhost:5000/api/login?email=${this.state.email}&senha=${this.state.senha}`, {
+    fetch(`http://localhost:5000/api/login?email=${this.state.email}&senha=${sha512(this.state.senha)}`, {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -45,10 +44,12 @@ class NavBar extends React.Component {
           localStorage.setItem("email", result.email)
           localStorage.setItem("cpf", result.cpf)
           localStorage.setItem("estado", result.estado)
-          window.location.reload()
-          return <Redirect to='/aulas'></Redirect>;
+          window.location.replace("/aulas")
         }
 
+      }).catch(err => {
+        console.log("Erro json: "+err)
+        alert("Email ou senha incorretos!")
       })
 
     }).catch(err => (console.log(err)));
@@ -112,7 +113,6 @@ class NavBar extends React.Component {
       </div>);
 
       permissao = localStorage.getItem("permissao")
-      console.log(permissao)
     }else{
       buttonToolbar = (
         <Form.Row>

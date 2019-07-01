@@ -2,7 +2,9 @@ var express = require("express");
 var app = express();
 var mysql = require("mysql");
 var bodyParser = require("body-parser");
-var session = require("express-session");
+var sha512 = require("js-sha512").sha512
+const multer = require("multer")
+const upload = multer({dest:"/upload/"})
 
 const con = mysql.createConnection({
   user: "plataforma",
@@ -30,20 +32,16 @@ app.use((req, res, next) => {
   next();
 });
 
-app.post("/api/fileReceive", (req, res)=>{
-  if(req.body){
-    //ARQUIVO RECEBIDO COM SUCESSO
-    res.sendStatus(200)
-  }else{
-    res.send("Erro de arquivo!")
-  }
+app.post("/api/fileReceive", upload.single("testFile"),(req, res, next)=>{
+  console.log(req.file)
+  res.sendStatus(200)
 })
 
 app.get("/api/login", (req, res)=>{
   
   con.connect(err => {
     if(err) console.log("Erro login: " +err)
-    var selectStr = "SELECT * FROM usuarios WHERE email='"+req.query.email+"' AND senha='"+req.query.senha+"'";
+    var selectStr = "SELECT * FROM usuarios WHERE email='"+req.query.email+"' AND senha='"+sha512(req.query.senha)+"'";
     con.query(selectStr, (errorQuery, result,fields)=>{
       if(errorQuery) console.log("Erro sql login: "+errorQuery)
       res.send(JSON.stringify(result[0]))
@@ -71,13 +69,33 @@ app.post("/api/insereConta", (req, res) => {
       "','" +
       postData.estado +
       "','" +
-      postData.senha +
+      sha512(postData.senha) +
       "','"+
       postData.cpf+"')";
     con.query(queryStr, (error) => {
       if (error) throw error;
-      res.send(200);
+      res.sendStatus(200);
       console.log("Conta criada com sucesso!");
     });
   });
 });
+
+app.post("/api/insereAula", (req, res)=>{
+  var postData = req.body
+  con.connect(err =>{
+    if(err) throw err
+    var queryStr = `INSERT INTO aula
+    (idUsuarioCriador, titulo, materia, assunto, tipo, conteudoTexto)
+    VALUES(${postData.idCriador}, '${postData.titulo}', '${postData.materia}',
+    '${postData.assunto}','${postData.tipo}', '${postData.text}');`
+    con.query(queryStr, (error)=>{
+      if(error){
+        console.log("SQL ERROR")
+        throw error
+      } 
+      res.sendStatus(200)
+      console.log("Aula criada com sucesso")
+    })
+
+  })
+})

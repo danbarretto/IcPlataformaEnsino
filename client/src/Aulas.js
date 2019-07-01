@@ -1,5 +1,6 @@
 import React from "react";
 import NavBar from "./components/NavBar";
+import Footer from './components/Footer'
 import Button from "react-bootstrap/Button";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Table from "react-bootstrap/Table";
@@ -85,6 +86,7 @@ class Aulas extends React.Component {
           </div>
 
         </Jumbotron>
+        <Footer></Footer>
       </div>
     );
   }

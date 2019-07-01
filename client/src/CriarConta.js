@@ -4,7 +4,8 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
-
+import Footer from "./components/Footer"
+var sha512 = require('js-sha512').sha512
 class CriarConta extends React.Component {
   constructor(...args) {
     super(...args);
@@ -36,11 +37,11 @@ class CriarConta extends React.Component {
         estado: this.state.estado,
         cep: this.state.cep,
         data: this.state.data,
-        senha: this.state.senha,
+        senha: sha512(this.state.senha),
         cpf:this.state.cpf
       };
       if (data !== undefined) {
-        fetch("http://localhost:5000/api/insereConta", {
+        fetch("/api/insereConta", {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -280,6 +281,7 @@ class CriarConta extends React.Component {
           </Form>
           <br />
         </div>
+        <Footer></Footer>
       </div>
     );
   }
