@@ -13,25 +13,28 @@ class CriarAula extends React.Component {
       tipo: "Tipo de Aula",
       rendered: null,
       text: "",
-      titulo:"",
-      assunto:"",
-      file:null
+      titulo: "",
+      assunto: "",
+      file: null,
+      fileNameReceived: ""
 
     };
-    this.handleFormChange = this.handleFormChange.bind(this) 
-   }
+    this.handleFormChange = this.handleFormChange.bind(this)
+  }
 
-  async criaAula(){
-    this.handleFileUpload()
+  async criaAula() {
+    console.log("Estado: ", this.state.fileNameReceived)
+
+
     try {
       var data = {
-        materia:this.state.materia,
-        tipo:this.state.tipo,
-        text:this.state.text,
-        titulo:this.state.titulo,
-        assunto:this.state.assunto,
-        idCriador:localStorage.getItem("id"),
-        fileName:this.state.file.name
+        materia: this.state.materia,
+        tipo: this.state.tipo,
+        text: this.state.text,
+        titulo: this.state.titulo,
+        assunto: this.state.assunto,
+        idCriador: localStorage.getItem("id"),
+        fileName: this.state.fileNameReceived
 
       };
       if (data !== undefined) {
@@ -48,7 +51,7 @@ class CriarAula extends React.Component {
             if (alert("Aula criada com sucesso!")) {
             } else {
               //redirecionar para profile
-              window.location.reload();
+              window.location.replace("/");
             }
           }
         });
@@ -58,17 +61,23 @@ class CriarAula extends React.Component {
     }
   }
 
-  handleFileSelect = event =>{
-    this.setState({file:event.target.files[0]})
+  handleFileSelect = event => {
+    this.setState({ file: event.target.files[0] })
   }
 
-  handleFileUpload = () =>{
-    const fd = new FormData()
-    fd.append("file", this.state.file, this.state.file.name)
-    axios.post("/api/fileReceive", fd)
+  handleFileUpload = () => {
+    if(this.state.tipo!=="Texto"){
+      const fd = new FormData()
+      fd.append("file", this.state.file, this.state.file.name)
+      axios.post("/api/fileReceive", fd)
       .then(res => {
-        console.log(res)
+        
+        this.setState({ fileNameReceived: res.data })
+        this.criaAula();
       })
+    }else{
+      this.criaAula();
+    }
   }
 
   handleChange2(e) {
@@ -101,7 +110,7 @@ class CriarAula extends React.Component {
     this.setState({ text: value })
   }
 
-  handleFormChange(event){
+  handleFormChange(event) {
     const { name, value } = event.target;
     this.setState({
       [name]: value
@@ -109,13 +118,13 @@ class CriarAula extends React.Component {
   }
 
   render() {
-    
-    
+
+
     return (
       <Form>
         <Form.Group controlId="exampleForm.ControlInput1">
           <Form.Label>Título</Form.Label>
-          <Form.Control type="text" name="titulo" onChange={this.handleFormChange}/>
+          <Form.Control type="text" name="titulo" onChange={this.handleFormChange} />
         </Form.Group>
         <Form.Group controlId="exampleForm.ControlSelect1">
           <Form.Label>Matéria</Form.Label>
@@ -150,7 +159,7 @@ class CriarAula extends React.Component {
           <Form.Label>Assunto</Form.Label>
           <Form.Control name="assunto" onChange={this.handleFormChange} type="text"></Form.Control>
         </Form.Group>
-        <Button onClick={this.criaAula.bind(this)}>Enviar</Button>
+        <Button onClick={this.handleFileUpload.bind(this)}>Enviar</Button>
       </Form>
     );
   }

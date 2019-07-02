@@ -3,8 +3,9 @@ import NavBar from "./components/NavBar";
 import Footer from './components/Footer'
 import Button from "react-bootstrap/Button";
 import Jumbotron from "react-bootstrap/Jumbotron";
-import Table from "react-bootstrap/Table";
 import CriarAula from './components/CriarAula'
+import AulaDisplay from './components/AulaDisplay'
+
 class Aulas extends React.Component {
   constructor(...args) {
     super(...args);
@@ -33,38 +34,7 @@ class Aulas extends React.Component {
   }
 
   render() {
-    const tableTest = (
-      <Table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Matéria</th>
-            <th>Assunto</th>
-            <th>Tipo de Aula</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Geografia</td>
-            <td>Curvas de Nível</td>
-            <td>Slide</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Matemática</td>
-            <td>Funções</td>
-            <td>Texto</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Português</td>
-            <td>Machado de Assis</td>
-            <td>Vídeo</td>
-          </tr>
-        </tbody>
-      </Table>
-    );
+   
 
     return (
       <div>
@@ -82,7 +52,7 @@ class Aulas extends React.Component {
           <br></br>
           <div>
               {this.state.createLect && <CriarAula></CriarAula>}
-              {this.state.showLect && tableTest}
+              {this.state.showLect && <AulaDisplay></AulaDisplay>}
           </div>
 
         </Jumbotron>
