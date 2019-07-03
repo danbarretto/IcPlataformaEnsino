@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
+
 import Footer from "./components/Footer"
 var sha512 = require('js-sha512').sha512
 class CriarConta extends React.Component {
@@ -21,7 +22,8 @@ class CriarConta extends React.Component {
       cep: "",
       data: "",
       senha: "",
-      cpf:"",
+      cpf: "",
+      validCpf: false,
       accountOk: false
     };
     this.handleChange = this.handleChange.bind(this);
@@ -38,7 +40,7 @@ class CriarConta extends React.Component {
         cep: this.state.cep,
         data: this.state.data,
         senha: sha512(this.state.senha),
-        cpf:this.state.cpf
+        cpf: this.state.cpf
       };
       if (data !== undefined) {
         fetch("/api/insereConta", {
@@ -50,7 +52,9 @@ class CriarConta extends React.Component {
           body: JSON.stringify(data)
         }).then(res => {
           this.setState({ accountOk: res.ok });
-          if (res.ok) {
+          if (res.status === 403) {
+            alert("Email ou CPF já Cadastrados!")
+          } else if (res.ok) {
             if (alert("Conta criada com sucesso!")) {
             } else {
               //redirecionar para profile
@@ -87,6 +91,26 @@ class CriarConta extends React.Component {
     });
   }
 
+  testaCPF(strCPF) {
+    var Soma;
+    var Resto;
+    Soma = 0;
+    if (strCPF === "00000000000" || strCPF=== '11111111111') return false;
+
+    for (let i = 1; i <= 9; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (11 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto === 10) || (Resto === 11)) Resto = 0;
+    if (Resto !== parseInt(strCPF.substring(9, 10))) return false;
+
+    Soma = 0;
+    for (let i = 1; i <= 10; i++) Soma = Soma + parseInt(strCPF.substring(i - 1, i)) * (12 - i);
+    Resto = (Soma * 10) % 11;
+
+    if ((Resto === 10) || (Resto === 11)) Resto = 0;
+    if (Resto !== parseInt(strCPF.substring(10, 11))) return false;
+    return true;
+  }
 
   render() {
     const { validated } = this.state;
@@ -134,6 +158,7 @@ class CriarConta extends React.Component {
                   <Form.Control
                     type="text"
                     name="cpf"
+                    isValid={this.testaCPF(this.state.cpf)}
                     placeholder="CPF"
                     aria-describedby="inputGroupPrepend"
                     required

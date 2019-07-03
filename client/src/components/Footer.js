@@ -4,21 +4,26 @@ function Footer() {
 
     const style = {
         backgroundColor: "#212529",
+        color:'white',
         textAlign: "center",
-        color: "white",
-        bottom:'0%'
+        padding: "20px",
+        position: "relative",
+        left: "0",
+        height: "60px",
+        width: "100%",
+        marginTop:"-60px",
+        clear:"both"
 
     }
 
     return (
-        <footer className="navbar-fixed-bottom" style={style}>
-            <div className="container">
-                <div>
-                    <h2>This is the footer</h2>
+        <footer >
+            <div/>
+                <div style={style}>
                     <p>Desenvolvido por Daniel Sá Barretto Prado Garcia</p>
-                    <p>danielbarretto@usp.br</p>
+                    
                 </div>
-            </div>
+            
         </footer>
     )
 

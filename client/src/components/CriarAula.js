@@ -87,7 +87,7 @@ class CriarAula extends React.Component {
         rendered: (
           <Form.Group controlId="exampleForm.ControlTextarea1">
             <Form.Label>Conteúdo</Form.Label>
-            <ReactQuill style={{ backgroundColor: 'white' }} value={this.state.text} onChange={this.handleTextChange.bind(this)}></ReactQuill>
+            <ReactQuill style={{ backgroundColor: 'white', height:'300px' }} value={this.state.text} onChange={this.handleTextChange.bind(this)}></ReactQuill>
           </Form.Group>
         )
       });

@@ -72,38 +72,46 @@ app.get("/api/login", (req, res) => {
 
 //insert user into database
 app.post("/api/insereConta", (req, res) => {
+
   var postData = req.body;
-  var queryStr =
-    "insert into usuarios (permissao, nome, sobrenome, email, cidade, cep, estado, senha, cpf) values (" +
-    "1,'" +
-    postData.nome +
-    "','" +
-    postData.sobrenome +
-    "','" +
-    postData.email +
-    "','" +
-    postData.cidade +
-    "','" +
-    postData.cep +
-    "','" +
-    postData.estado +
-    "','" +
-    sha512(postData.senha) +
-    "','" +
-    postData.cpf + "')";
-  con.query(queryStr, (error) => {
-    if (error) throw error;
-    res.sendStatus(200);
-    console.log("Conta criada com sucesso!");
-  });
+  con.query(`select * from usuarios where email='${postData.email}' OR cpf='${postData.cpf}';`, (error, result) => {
+    if (error) throw error
+    if (JSON.stringify(result).length > 2) {
+      res.sendStatus(403)
+    } else {
+      var queryStr =
+        "insert into usuarios (permissao, nome, sobrenome, email, cidade, cep, estado, senha, cpf) values (" +
+        "1,'" +
+        postData.nome +
+        "','" +
+        postData.sobrenome +
+        "','" +
+        postData.email +
+        "','" +
+        postData.cidade +
+        "','" +
+        postData.cep +
+        "','" +
+        postData.estado +
+        "','" +
+        sha512(postData.senha) +
+        "','" +
+        postData.cpf + "')";
+      con.query(queryStr, (error) => {
+        if (error) throw error;
+        res.sendStatus(200);
+        //console.log("Conta criada com sucesso!");
+      });
+    }
+  })
 });
 
 
 //Insert aula into database
 app.post("/api/insereAula", (req, res) => {
   let postData = req.body
-  let path="''"
-  if(postData.fileName!==""){
+  let path = "''"
+  if (postData.fileName !== "") {
     path = `'/home/daniel/IcPlataformaEnsino/server/uploads/${postData.fileName}'`
   }
   var queryStr = `INSERT INTO aula
@@ -117,15 +125,15 @@ app.post("/api/insereAula", (req, res) => {
       throw error
     }
     res.sendStatus(200)
-    console.log("Aula criada com sucesso")
+    //console.log("Aula criada com sucesso")
   })
 
 })
 
-app.get("/api/getLectures", (req, res)=>{
+app.get("/api/getLectures", (req, res) => {
   let selectStr = `SELECT * FROM aula where idUsuarioCriador=${req.query.id}`
-  con.query(selectStr, (sqlErr, result, fields)=>{
-    if(sqlErr) console.log("Select aula error", sqlErr)
+  con.query(selectStr, (sqlErr, result, fields) => {
+    if (sqlErr) console.log("Select aula error", sqlErr)
     res.send(JSON.stringify(result))
   })
 

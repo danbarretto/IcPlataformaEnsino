@@ -54,9 +54,10 @@ class MainContent extends Component{
                     </Carousel.Caption>
                 </Carousel.Item>
             </Carousel>
-            <Jumbotron>
+            <Jumbotron style={{height:"300px"}}>
                 <h1>Bem vindo!</h1>
                 <p>Essa é a mais nova plataforma de ensino aberta!</p>
+                
                 <Button variant="primary">Continuar</Button>
             </Jumbotron>
 

@@ -1,9 +1,8 @@
  DROP DATABASE plataforma;
- USE plataforma;
-SELECT * FROM aula;
+ SELECT * FROM aula;
 
  CREATE DATABASE plataforma;
-
+ USE plataforma;
  CREATE TABLE usuarios(
      id int auto_increment not null,
      primary key(id),
@@ -27,7 +26,7 @@ SELECT * FROM aula;
      materia varchar(30),
      assunto varchar(50),
      tipo varchar(15),
-     conteudoTexto varchar(5000),
+     conteudoTexto TEXT,
      caminhoArquivo varchar(200)
  );
 
