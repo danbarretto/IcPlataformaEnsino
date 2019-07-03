@@ -51,7 +51,7 @@ class AulaTable extends React.Component {
     }
     render() {
         return (<div>
-            <Table striped bordered hover>
+            <Table striped bordered hover style={{backgroundColor:"#F8F8F8"}}>
                 <thead>
                     <tr>
                         <th>Título</th>
@@ -64,6 +64,7 @@ class AulaTable extends React.Component {
                     {this.state.elementArray}
                 </tbody>
             </Table>
+            <br></br>
             {this.state.showAula && this.state.currAula}
         </div>);
     }

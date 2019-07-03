@@ -35,17 +35,15 @@ class Aulas extends React.Component {
   }
 
   render() {
-
-
     return (
       <div>
         <NavBar />
-        <Jumbotron >
+        <Jumbotron>
               <h1>Aulas</h1>
           <Nav variant='tabs' defaultActiveKey="suasAulas">
             <Nav.Item>
 
-              <Nav.Link eventKey="suasAulas" onClick={this.showLectures}>
+              <Nav.Link  eventKey="suasAulas" onClick={this.showLectures}>
                 Suas Aulas
           </Nav.Link>
             </Nav.Item>
@@ -60,9 +58,9 @@ class Aulas extends React.Component {
             <br></br>
             <br></br>
             <br></br>
-            <div>
+          <div>
               {this.state.createLect && <CriarAula></CriarAula>}
-              {this.state.showLect && <AulaTable></AulaTable>}
+              {this.state.showLect && <AulaTable ></AulaTable>}
             </div>
         </Jumbotron>
         <Footer></Footer>

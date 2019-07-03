@@ -112,7 +112,7 @@ app.post("/api/insereAula", (req, res) => {
   let postData = req.body
   let path = "''"
   if (postData.fileName !== "") {
-    path = `'/home/daniel/IcPlataformaEnsino/server/uploads/${postData.fileName}'`
+    path = `'${postData.fileName}'`
   }
   var queryStr = `INSERT INTO aula
     (idUsuarioCriador, titulo, materia, assunto, tipo, conteudoTexto, caminhoArquivo)
@@ -138,3 +138,4 @@ app.get("/api/getLectures", (req, res) => {
   })
 
 })
+
