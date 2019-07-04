@@ -2,7 +2,7 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // ES6
+import 'react-quill/dist/quill.snow.css';
 import axios from 'axios'
 
 class CriarAula extends React.Component {
@@ -16,7 +16,9 @@ class CriarAula extends React.Component {
       titulo: "",
       assunto: "",
       file: null,
-      fileNameReceived: ""
+      fileName: "",
+      fileNameReceived: "",
+      showSpinner: false,
 
     };
     this.handleFormChange = this.handleFormChange.bind(this)
@@ -51,7 +53,7 @@ class CriarAula extends React.Component {
             if (alert("Aula criada com sucesso!")) {
             } else {
               //redirecionar para profile
-              window.location.replace("/");
+              window.location.reload();
             }
           }
         });
@@ -62,20 +64,29 @@ class CriarAula extends React.Component {
   }
 
   handleFileSelect = event => {
-    this.setState({ file: event.target.files[0] })
+    this.setState({ file: event.target.files[0], fileName:event.target.files[0].name })
+    
   }
 
   handleFileUpload = () => {
-    if(this.state.tipo!=="Texto"){
+    if (this.state.tipo !== "Texto") {
       const fd = new FormData()
       fd.append("file", this.state.file, this.state.file.name)
-      axios.post("/api/fileReceive", fd)
-      .then(res => {
-        
-        this.setState({ fileNameReceived: res.data })
-        this.criaAula();
-      })
-    }else{
+      axios.post("/api/fileReceive", fd,
+        {
+          onUploadProgress: progressEvent => {
+            this.setState({ showSpinner: true })
+              console.log(progressEvent.loaded / progressEvent.total)
+            
+            this.setState({ showSpinner: false })
+          }
+        })
+        .then(res => {
+
+          this.setState({ fileNameReceived: res.data })
+          this.criaAula();
+        })
+    } else {
       this.criaAula();
     }
   }
@@ -87,19 +98,45 @@ class CriarAula extends React.Component {
         rendered: (
           <Form.Group controlId="exampleForm.ControlTextarea1">
             <Form.Label>Conteúdo</Form.Label>
-            <ReactQuill style={{ backgroundColor: 'white', height:'300px' }} value={this.state.text} onChange={this.handleTextChange.bind(this)}></ReactQuill>
+            <ReactQuill style={{ backgroundColor: 'white', height: '300px' }} value={this.state.text} onChange={this.handleTextChange.bind(this)}></ReactQuill>
           </Form.Group>
         )
       });
     } else {
+      let accept;
+      switch (e.target.value) {
+        case "Vídeo":
+          accept = ".mp4"
+          break;
+        case "Slide":
+          accept = ".pdf"
+          break;
+        case "Executável":
+          accept = ".zip"
+          break;
+        default:
+          accept = ""
+          break
+      }
       this.setState({
         rendered: (
           <div>
             <input
+              style={{ display: 'none' }}
               type="file"
               name="file"
+              accept={accept}
+              
               onChange={this.handleFileSelect}
+              ref={fileInput => this.fileInput = fileInput}
             />
+            <Button onClick={() => {
+              this.fileInput.click()
+              
+            }
+            }>Escolher Arquivo</Button>
+            
+
           </div>
         )
       });
@@ -118,7 +155,6 @@ class CriarAula extends React.Component {
   }
 
   render() {
-
 
     return (
       <Form>
@@ -154,6 +190,7 @@ class CriarAula extends React.Component {
         </Form.Group>
         <Form.Group controlId="exampleForm.ControlTextarea1">
           {this.state.rendered}
+          <p style={{paddingTop:'10px'}}>{this.state.fileName}</p>
         </Form.Group>
         <Form.Group>
           <Form.Label>Assunto</Form.Label>

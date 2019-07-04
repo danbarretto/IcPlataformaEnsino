@@ -4,13 +4,15 @@ var mysql = require("mysql");
 var bodyParser = require("body-parser");
 var sha512 = require("js-sha512").sha512
 const multer = require("multer")
-const path = require("path")
+const fs = require('fs')
+
 
 //Set storage engine
 const storage = multer.diskStorage({
   destination: './uploads/',
   filename: (req, file, cb) => {
-    cb(null, file.originalname + '-' + Date.now() + path.extname(file.originalname))
+    fileName = new Date().toISOString() + file.originalname
+    cb(null, fileName)
   }
 })
 
@@ -139,3 +141,20 @@ app.get("/api/getLectures", (req, res) => {
 
 })
 
+app.get("/api/pdfAula", (req, res) => {
+  let filePath = `./uploads/${req.query.fileName}`
+  fs.readFile(filePath, (err, data)=>{
+    if(err) console.log(err)
+    res.contentType("application/pdf")
+    res.send(data);
+  })
+})
+
+app.get('/api/downloadzip', (req, res)=>{
+  let filePath = `./uploads/${req.query.fileName}`
+  fs.readFile(filePath, (err, data)=>{
+    if (err) console.log(err)
+    res.contentType("application/octet-stream")
+    res.send(data)
+  })
+})

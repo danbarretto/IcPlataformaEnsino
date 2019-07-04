@@ -36,9 +36,9 @@ class Aulas extends React.Component {
 
   render() {
     return (
-      <div>
+      <div >
         <NavBar />
-        <Jumbotron>
+        <Jumbotron style={{ minHeight: '100%' }}>
               <h1>Aulas</h1>
           <Nav variant='tabs' defaultActiveKey="suasAulas">
             <Nav.Item>
@@ -53,7 +53,7 @@ class Aulas extends React.Component {
                 Criar Aula
               </Nav.Link>
             </Nav.Item>
-
+      
           </Nav>
             <br></br>
             <br></br>

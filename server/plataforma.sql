@@ -1,8 +1,8 @@
  DROP DATABASE plataforma;
  SELECT * FROM aula;
-
- CREATE DATABASE plataforma;
  USE plataforma;
+delete from aula where idUsuarioCriador=1
+ CREATE DATABASE plataforma;
  CREATE TABLE usuarios(
      id int auto_increment not null,
      primary key(id),

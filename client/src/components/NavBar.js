@@ -22,7 +22,7 @@ class NavBar extends React.Component {
   }
 
   login() {
-    fetch(`http://localhost:5000/api/login?email=${this.state.email}&senha=${sha512(this.state.senha)}`, {
+    fetch(`/api/login?email=${this.state.email}&senha=${sha512(this.state.senha)}`, {
       method: "GET",
       headers: {
         Accept: "application/json",

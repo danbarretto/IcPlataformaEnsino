@@ -14,7 +14,7 @@ class AulaTable extends React.Component {
 
 
     getLectures() {
-        fetch(`http://localhost:5000/api/getLectures?id=${localStorage.getItem("id")}`, {
+        fetch(`/api/getLectures?id=${localStorage.getItem("id")}`, {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -41,6 +41,7 @@ class AulaTable extends React.Component {
     }
 
     updateCurrElement(newElem) {
+        
         this.setState({currAula:(<AulaDisplay 
             element={newElem}></AulaDisplay>),
             showAula:true
