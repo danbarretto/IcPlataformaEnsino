@@ -1,7 +1,7 @@
 import React from 'react'
 
 function Footer() {
-
+    
     const style = {
         backgroundColor: "#212529",
         color:'white',
@@ -9,10 +9,12 @@ function Footer() {
         padding: "20px",
         position: "relative",
         left: "0",
+        bottom:'0',
         height: "60px",
         width: "100%",
         marginTop:"-60px",
-        clear:"both"
+        clear:"both",
+        minTop:'100%'
 
     }
 
@@ -21,7 +23,6 @@ function Footer() {
             <div/>
                 <div style={style}>
                     <p>Desenvolvido por Daniel Sá Barretto Prado Garcia</p>
-                    
                 </div>
             
         </footer>

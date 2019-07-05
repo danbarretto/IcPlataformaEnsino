@@ -45,7 +45,6 @@ class AulaDisplay extends React.Component {
                 />
                 break;
             case "Slide":
-                console.log(this.props.element)
                 content = <PDFViewer
                     backend={PDFBackend}
                     src={this.props.element.caminhoArquivo}
