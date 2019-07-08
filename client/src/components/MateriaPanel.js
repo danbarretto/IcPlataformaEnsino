@@ -5,7 +5,7 @@ export default class MateriaPanel extends React.Component {
 
     render() {
         return (
-            <div style={{paddingLeft:'25%'}}>
+            <div style={{paddingLeft:'25%', backgroundColor:'#F6F6F6', borderRadius:'10px'}}>
                 <Row>
                     <Icon materia='Português'url='https://image.flaticon.com/icons/svg/1903/1903163.svg' />
                     <Icon materia='Matemática' url='https://image.flaticon.com/icons/svg/1050/1050470.svg' />

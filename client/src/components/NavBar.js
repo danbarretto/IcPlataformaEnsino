@@ -44,7 +44,7 @@ class NavBar extends React.Component {
           localStorage.setItem("email", result.email)
           localStorage.setItem("cpf", result.cpf)
           localStorage.setItem("estado", result.estado)
-          window.location.replace("/aulas")
+          window.location.replace("/")
         }
 
       }).catch(err => {
@@ -108,7 +108,8 @@ class NavBar extends React.Component {
         margin: '5px'
       }
       buttonToolbar = (<div>
-        <Form.Label style={style}>Ola {localStorage.getItem("nome")}</Form.Label>
+        <Form.Label style={style}>Olá {localStorage.getItem("nome")}</Form.Label>
+        <Button variant="outline-light" style={{marginRight:'5px'}} href='/perfil'>Perfil</Button>
         <Button variant="outline-light" onClick={this.handleSair} >Sair</Button>
       </div>);
 

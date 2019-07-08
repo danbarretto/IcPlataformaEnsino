@@ -26,7 +26,7 @@ export default function Icon(props) {
                     }}
                     beforeInjection={svg => {
 
-                        svg.setAttribute('style', 'height: 256px;width:256px;margin:30px;cursor:hand')
+                        svg.setAttribute('style', 'height: 200px;width:200px;margin:30px;cursor:hand')
 
                     }}
                     evalScripts="always"

@@ -56,6 +56,7 @@ class Aulas extends React.Component {
         <NavBar />
         <Jumbotron style={{ minHeight: '100%' }}>
           <h1>Aulas</h1>
+          
           <Nav variant='tabs' defaultActiveKey="suasAulas">
             <Nav.Item>
 
@@ -80,7 +81,7 @@ class Aulas extends React.Component {
           <br></br>
           <div>
             {this.state.createLect && <CriarAula></CriarAula>}
-            {this.state.showLect && <AulaTable ></AulaTable>}
+            {this.state.showLect && <AulaTable option='1' ></AulaTable>}
             {this.state.searchLect && <BuscarAula></BuscarAula>}
           </div>
         </Jumbotron>
