@@ -3,7 +3,6 @@ import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col';
 import MateriaPanel from './MateriaPanel'
 import Button from 'react-bootstrap/Button';
-import Table from 'react-bootstrap/Table'
 import AulaTable from './AulaTable';
 export default class BuscarAula extends React.Component {
 
@@ -14,9 +13,10 @@ export default class BuscarAula extends React.Component {
             tipo: '',
             assunto: '',
             titulo: '',
-            table:null,
+            table: null,
             tableElements: [],
-            showTable: false
+            showTable: false,
+            hideContent: false
         }
         this.handleFormChange = this.handleFormChange.bind(this)
     }
@@ -28,13 +28,13 @@ export default class BuscarAula extends React.Component {
         });
     }
 
-    
+
 
     handleSelect(e) {
         this.setState({ tipo: e.target.value })
     }
 
-    buscarAula(){
+    buscarAula() {
         this.setState({
             table: <AulaTable
                 option='2'
@@ -42,16 +42,23 @@ export default class BuscarAula extends React.Component {
                 materia={this.state.materia}
                 tipo={this.state.tipo}
                 assunto={this.state.assunto}
-            ></AulaTable>, showTable:true})
+                hideContent={this.hidePageContent}
+            ></AulaTable>, showTable: true
+        })
+    }
+    getCurrentMateria = (newMateria) => {
+        window.scrollBy(0, 500)
+        this.setState({ materia: newMateria })
     }
 
-    /*
+    hidePageContent = () => {
+        this.setState({ hideContent: true })
+    }
 
-            <h2 style={{ paddingLeft: '25%' }}>Selecione a Matéria</h2>
-            <MateriaPanel></MateriaPanel>
-    */
     render() {
-        return (<div>
+        let form = <div>
+            <h2 style={{ paddingLeft: '25%' }}>Selecione a Matéria</h2>
+            <MateriaPanel changeMateria={this.getCurrentMateria}></MateriaPanel>
             <Form style={{ paddingLeft: '25%' }}>
                 <Form.Group as={Col} md='6'>
                     <Form.Label>Título (obrigatório)</Form.Label>
@@ -59,7 +66,7 @@ export default class BuscarAula extends React.Component {
                 </Form.Group>
                 <Form.Group as={Col} md='6'>
                     <Form.Label>Tipo de Aula</Form.Label>
-                    <Form.Control onChange={this.handleSelect.bind(this)} as='select'>
+                    <Form.Control onChange={this.handleSelect} as='select'>
                         <option selected='selected' disabled='disabled'>Selecione um tipo de aula</option>
                         <option>Texto</option>
                         <option>Slide</option>
@@ -76,7 +83,12 @@ export default class BuscarAula extends React.Component {
                 </Form.Group>
 
             </Form>
+        </div>
+
+        return (<div>
+            {!this.state.hideContent && form}
             {this.state.showTable && this.state.table}
+
         </div>)
     }
 }

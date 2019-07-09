@@ -158,3 +158,26 @@ app.get('/api/downloadzip', (req, res)=>{
     res.send(data)
   })
 })
+
+app.get('/api/searchLect', (req, res)=>{
+  let selectStr=`SELECT * FROM aula WHERE materia LIKE '%${req.query.materia}%' 
+  AND tipo LIKE '%${req.query.tipo}%' 
+  AND titulo LIKE '%${req.query.titulo}%'
+  AND assunto LIKE '%${req.query.assunto}%';`
+  con.query(selectStr, (err, result)=>{
+    if(err) console.log("Busca aula err: ", err)
+    res.send(JSON.stringify(result))
+  })
+})
+
+app.post('/api/completeLect', (req, res)=>{
+  let postData = req.body
+  const insertString = `INSERT INTO complecaoAula(idAula, idUsuario, completada) VALUES (${postData.idAula}, ${postData.idUser}, 1)`
+  con.query(insertString, (err)=>{
+    if(err){
+      console.log(err)
+      return err
+    }
+    res.sendStatus(200)
+  })
+})

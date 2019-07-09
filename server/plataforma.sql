@@ -1,7 +1,7 @@
  DROP DATABASE plataforma;
- SELECT * FROM aula;
  USE plataforma;
-delete from aula where idUsuarioCriador=1
+ SELECT * FROM complecaoAula;
+ 
  CREATE DATABASE plataforma;
  CREATE TABLE usuarios(
      id int auto_increment not null,
@@ -58,3 +58,4 @@ delete from aula where idUsuarioCriador=1
      FOREIGN KEY (idUsuario) REFERENCES usuarios(id),
      completada boolean not null
  );
+

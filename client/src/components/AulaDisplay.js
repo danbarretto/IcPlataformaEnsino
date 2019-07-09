@@ -23,6 +23,26 @@ class AulaDisplay extends React.Component {
             })
     }
 
+    handleCompleteClick(){
+        let data = {
+            idUser:localStorage.getItem('id'),
+            idAula:this.props.element.id
+        }
+        fetch(`/api/completeLect`,
+        {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+            },
+            body:JSON.stringify(data)
+        }).then(res=>{
+            if(res.ok){
+                alert("Aula completada!")
+            }
+        })
+    }
+
     render() {
 
 
@@ -70,6 +90,7 @@ class AulaDisplay extends React.Component {
                 <h1>{this.props.element.titulo}</h1>
                 <h2>{this.props.element.assunto}</h2>
                 {content}
+                <Button onClick={this.handleCompleteClick.bind(this)}>Concluir aula</Button>
             </div>
         )
     }

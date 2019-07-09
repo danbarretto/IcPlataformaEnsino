@@ -68,6 +68,7 @@ class AulaTable extends React.Component {
                         </tr>)
                     });
                     this.setState({elementArray:temp})
+                    this.props.hideContent()
                 }
             })
         })
@@ -80,6 +81,7 @@ class AulaTable extends React.Component {
                 element={newElem}></AulaDisplay>),
             showAula: true
         })
+        
     }
     componentDidMount() {
         if (this.props.option == 1)
