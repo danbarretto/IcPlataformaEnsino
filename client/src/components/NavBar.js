@@ -44,6 +44,7 @@ class NavBar extends React.Component {
           localStorage.setItem("email", result.email)
           localStorage.setItem("cpf", result.cpf)
           localStorage.setItem("estado", result.estado)
+          localStorage.setItem("dataNasc", result.dataNasc)
           window.location.replace("/")
         }
 

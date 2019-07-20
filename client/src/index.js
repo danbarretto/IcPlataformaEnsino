@@ -7,6 +7,7 @@ import Turmas from './Turmas'
 import Eventos from './Eventos'
 import Desafios from './Desafios'
 import Atividades from './Atividades'
+import Perfil from './Perfil'
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import CriarConta from './CriarConta';
@@ -25,6 +26,7 @@ ReactDOM.render(
             <Route path="/eventos" exact={true} component={Eventos }/>
             <Route path="/turmas" exact={true} component={Turmas}/>
             <Route path="/criarconta" exact={true} component={CriarConta}/>
+            <Route path="/perfil" exact={true} component={Perfil}/>
 
         </Switch>
     </BrowserRouter>, document.getElementById('root'));

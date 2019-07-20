@@ -23,6 +23,7 @@ class CriarConta extends React.Component {
       data: "",
       senha: "",
       cpf: "",
+      dataNasc:'',
       validCpf: false,
       accountOk: false
     };

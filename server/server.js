@@ -5,6 +5,7 @@ var bodyParser = require("body-parser");
 var sha512 = require("js-sha512").sha512
 const multer = require("multer")
 const fs = require('fs')
+//const https = require('https')
 
 
 //Set storage engine
@@ -40,11 +41,6 @@ const con = mysql.createConnection({
   database: "plataforma"
 });
 
-const port = process.env.PORT || 5000;
-
-app.listen(port, () => console.log(`Listening on port ${port}`));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //Header set
 app.use((req, res, next) => {
@@ -64,7 +60,11 @@ app.use((req, res, next) => {
 //Login
 app.get("/api/login", (req, res) => {
 
-  var selectStr = "SELECT * FROM usuarios WHERE email='" + req.query.email + "' AND senha='" + sha512(req.query.senha) + "'";
+  var selectStr = `SELECT 
+  id, permissao,nome,sobrenome,
+  email,cidade, estado,
+  cep, cpf, dataNasc
+  FROM usuarios WHERE email='${req.query.email}' AND senha='${sha512(req.query.senha)}';`
   con.query(selectStr, (errorQuery, result, fields) => {
     if (errorQuery) console.log("Erro sql login: " + errorQuery)
     res.send(JSON.stringify(result[0]))
@@ -82,7 +82,7 @@ app.post("/api/insereConta", (req, res) => {
       res.sendStatus(403)
     } else {
       var queryStr =
-        "insert into usuarios (permissao, nome, sobrenome, email, cidade, cep, estado, senha, cpf) values (" +
+        "insert into usuarios (permissao, nome, sobrenome, email, cidade, cep, estado, senha, cpf, dataNasc) values (" +
         "1,'" +
         postData.nome +
         "','" +
@@ -98,7 +98,7 @@ app.post("/api/insereConta", (req, res) => {
         "','" +
         sha512(postData.senha) +
         "','" +
-        postData.cpf + "')";
+        postData.cpf + "','"+postData.data+"')";
       con.query(queryStr, (error) => {
         if (error) throw error;
         res.sendStatus(200);
@@ -169,7 +169,8 @@ app.get('/api/searchLect', (req, res)=>{
   WHERE materia LIKE '%${req.query.materia}%' 
   AND tipo LIKE '%${req.query.tipo}%' 
   AND titulo LIKE '%${req.query.titulo}%'
-  AND assunto LIKE '%${req.query.assunto}%';`
+  AND assunto LIKE '%${req.query.assunto}%'
+  ORDER BY aula.id;`
   
   con.query(selectStr, (err, result)=>{
     if(err) console.log("Busca aula err: ", err)
@@ -189,3 +190,19 @@ app.post('/api/completeLect', (req, res)=>{
     res.sendStatus(200)
   })
 })
+
+
+const port = process.env.PORT || 5000;
+//const options ={}
+
+/*
+app.use((req, res) => {
+  res.writeHead(200)
+  res.end('hello world\n')
+})*/
+
+app.listen(port, () => console.log(`Listening on port ${port}`));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+//https.createServer(options, app).listen(5050)

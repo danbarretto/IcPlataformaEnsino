@@ -13,9 +13,9 @@
      estado varchar(2),
      cep varchar(10),
      senha varchar(300),
-     cpf varchar(15)
+     cpf varchar(15),
+     dataNasc varchar(10)
  );
-
  CREATE TABLE aula(
      id int auto_increment not null,
      primary key(id),
