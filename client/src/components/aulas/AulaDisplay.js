@@ -1,8 +1,8 @@
 import React from 'react'
 import { Player } from 'video-react'
 import 'video-react/dist/video-react.css'
-import PDFViewer from './pdf/PDFViewer'
-import PDFBackend from './pdf/pdfjs'
+import PDFViewer from '../pdf/PDFViewer'
+import PDFBackend from '../pdf/pdfjs'
 import Button from 'react-bootstrap/Button';
 
 class AulaDisplay extends React.Component {

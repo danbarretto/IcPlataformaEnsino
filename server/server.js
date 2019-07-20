@@ -160,12 +160,20 @@ app.get('/api/downloadzip', (req, res)=>{
 })
 
 app.get('/api/searchLect', (req, res)=>{
-  let selectStr=`SELECT * FROM aula WHERE materia LIKE '%${req.query.materia}%' 
+  let selectStr =` SELECT aula.*, usuarios.nome, usuarios.sobrenome,complecaoAula.completada
+  FROM aula
+  LEFT JOIN usuarios 
+  ON aula.idUsuarioCriador=usuarios.id
+  LEFT JOIN complecaoAula
+  ON complecaoAula.idUsuario = usuarios.id AND complecaoAula.idAula = aula.id
+  WHERE materia LIKE '%${req.query.materia}%' 
   AND tipo LIKE '%${req.query.tipo}%' 
   AND titulo LIKE '%${req.query.titulo}%'
   AND assunto LIKE '%${req.query.assunto}%';`
+  
   con.query(selectStr, (err, result)=>{
     if(err) console.log("Busca aula err: ", err)
+
     res.send(JSON.stringify(result))
   })
 })

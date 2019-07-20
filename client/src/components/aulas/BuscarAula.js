@@ -1,9 +1,11 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
 import Col from 'react-bootstrap/Col';
-import MateriaPanel from './MateriaPanel'
+import MateriaPanel from '../MateriaPanel'
 import Button from 'react-bootstrap/Button';
 import AulaTable from './AulaTable';
+
+
 export default class BuscarAula extends React.Component {
 
     constructor(props) {
@@ -16,7 +18,7 @@ export default class BuscarAula extends React.Component {
             table: null,
             tableElements: [],
             showTable: false,
-            hideContent: false
+            hideContent: false,
         }
         this.handleFormChange = this.handleFormChange.bind(this)
     }

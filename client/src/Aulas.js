@@ -2,10 +2,10 @@ import React from "react";
 import NavBar from "./components/NavBar";
 import Footer from './components/Footer'
 import Jumbotron from "react-bootstrap/Jumbotron";
-import CriarAula from './components/CriarAula'
-import AulaTable from './components/AulaTable'
+import CriarAula from './components/aulas/CriarAula'
+import AulaTable from './components/aulas/AulaTable'
 import Nav from 'react-bootstrap/Nav'
-import BuscarAula from './components/BuscarAula'
+import BuscarAula from './components/aulas/BuscarAula'
 
 class Aulas extends React.Component {
   constructor(...args) {
@@ -51,31 +51,45 @@ class Aulas extends React.Component {
   }
 
   render() {
+    let aulaNav
+    if (localStorage.getItem('permissao') === '2') {
+      aulaNav =
+        <Nav variant='tabs' defaultActiveKey="suasAulas">
+          <Nav.Item>
+            <Nav.Link eventKey="buscarAula" onClick={this.searchLecture}>
+              Buscar Aulas
+              </Nav.Link>
+          </Nav.Item>
+        </Nav>
+    } else if (localStorage.getItem('permissao') === '1') {
+      aulaNav =
+        <Nav variant='tabs' defaultActiveKey="suasAulas">
+          <Nav.Item>
+
+            <Nav.Link eventKey="suasAulas" onClick={this.showLectures}>
+              Suas Aulas
+          </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+
+            <Nav.Link eventKey="criarAula" onClick={this.createLecture}>
+              Criar Aula
+              </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="buscarAula" onClick={this.searchLecture}>
+              Buscar Aulas
+              </Nav.Link>
+          </Nav.Item>
+        </Nav>
+    }
     return (
       <div >
         <NavBar />
         <Jumbotron style={{ minHeight: '100%' }}>
           <h1>Aulas</h1>
-          
-          <Nav variant='tabs' defaultActiveKey="suasAulas">
-            <Nav.Item>
 
-              <Nav.Link eventKey="suasAulas" onClick={this.showLectures}>
-                Suas Aulas
-          </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-
-              <Nav.Link eventKey="criarAula" onClick={this.createLecture}>
-                Criar Aula
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link eventKey="buscarAula" onClick={this.searchLecture}>
-                Buscar Aulas
-              </Nav.Link>
-            </Nav.Item>
-          </Nav>
+          {aulaNav}
           <br></br>
           <br></br>
           <br></br>

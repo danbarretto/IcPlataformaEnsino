@@ -1,6 +1,5 @@
  DROP DATABASE plataforma;
  USE plataforma;
- SELECT * FROM complecaoAula;
  
  CREATE DATABASE plataforma;
  CREATE TABLE usuarios(
