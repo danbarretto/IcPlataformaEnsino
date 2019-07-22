@@ -7,6 +7,7 @@ export default class AtividadeTable extends React.Component {
         super(props)
         this.state = {
             tableHead: null,
+            content:null
         }
     }
 
@@ -19,6 +20,7 @@ export default class AtividadeTable extends React.Component {
                     <th>Matéria</th>
                     <th>Assunto</th>
                     <th>Tipo</th>
+                    <th>Pontuação</th>
                 </tr>
             </thead>)
         })
@@ -30,14 +32,32 @@ export default class AtividadeTable extends React.Component {
                     "Content-Type": "application/json",
                 }
             }).then(res => {
-
+                let temp =[]
+                res.json().then(result=>{
+                    result.forEach(element => {
+                        temp.push(<tr>
+                            <td>{element.titulo}</td>
+                            <td>{element.materia}</td>
+                            <td>{element.assunto}</td>
+                            <td>{element.tipo}</td>
+                            <td>{element.pontuacao}</td>
+                        </tr>)
+                    });
+                    this.setState({content:temp})
+                })
             })
     }
 
+    componentDidMount(){
+        this.getActivities()
+    }
     render() {
         return (
             <Table striped bordered hover style={{ backgroundColor: "#F8F8F8" }}>
-
+                {this.state.tableHead}
+                <tbody>
+                    {this.state.content}
+                </tbody>
             </Table>)
     }
 }
