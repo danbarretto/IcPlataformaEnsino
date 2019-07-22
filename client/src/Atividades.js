@@ -3,6 +3,7 @@ import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 import Jumbotron from 'react-bootstrap/Jumbotron';
 import Nav from 'react-bootstrap/Nav'
+import AtividadeDisplay from './components/atividades/AtividadeDisplay';
 
 class Atividades extends React.Component {
     constructor(props){
@@ -82,7 +83,7 @@ class Atividades extends React.Component {
                 <br></br>
                 <br></br>
                 <br></br>
-                {this.state.showActivities && 'a'}
+                {this.state.showActivities && <AtividadeDisplay></AtividadeDisplay>}
                 {this.state.createActivity && 'b'}
                 {this.state.searchActivity && 'c'}
             </Jumbotron>

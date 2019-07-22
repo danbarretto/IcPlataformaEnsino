@@ -3,6 +3,8 @@ import Table from 'react-bootstrap/Table'
 import AulaDisplay from './AulaDisplay'
 import Spinner from 'react-bootstrap/Spinner'
 import Modal from 'react-bootstrap/Modal'
+
+
 class AulaTable extends React.Component {
     constructor(...args) {
         super(...args)
@@ -75,7 +77,6 @@ class AulaTable extends React.Component {
                 } else {
 
                     result.forEach(element => {
-                        console.log(element.completada)
                         temp.push(<tr key={element.id} onClick={() => this.updateCurrElement(element)}>
                             <td>{element.titulo}</td>
                             <td>{element.materia}</td>

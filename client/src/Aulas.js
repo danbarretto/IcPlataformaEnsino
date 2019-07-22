@@ -13,7 +13,7 @@ class Aulas extends React.Component {
     this.state = {
       showLect: true,
       createLect: false,
-      searchLect: false,
+      searchLect: false
     };
     this.showLectures = this.showLectures.bind(this);
     this.createLecture = this.createLecture.bind(this);
@@ -98,8 +98,17 @@ class Aulas extends React.Component {
             {this.state.showLect && <AulaTable option='1' ></AulaTable>}
             {this.state.searchLect && <BuscarAula></BuscarAula>}
           </div>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
+          <br></br>
         </Jumbotron>
-        <Footer></Footer>
+        <Footer position={this.state.position}></Footer>
       </div>
     );
   }

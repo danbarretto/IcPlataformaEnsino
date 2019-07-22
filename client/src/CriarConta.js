@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 
 import Footer from "./components/Footer"
+import Jumbotron from "react-bootstrap/Jumbotron";
 var sha512 = require('js-sha512').sha512
 class CriarConta extends React.Component {
   constructor(...args) {
@@ -119,7 +120,8 @@ class CriarConta extends React.Component {
     return (
       <div>
         <NavBar />
-        <div>
+        <Jumbotron>
+          <h2>Criar nova conta</h2>
           <Form noValidate validated={validated}>
             <Form.Row>
               <Form.Group as={Col} md="3" controlId="validationCustom01">
@@ -306,7 +308,7 @@ class CriarConta extends React.Component {
             <Button onClick={e => this.handleSubmit(e)}>Criar Conta</Button>
           </Form>
           <br />
-        </div>
+        </Jumbotron>
         <Footer></Footer>
       </div>
     );

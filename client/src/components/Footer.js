@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Footer() {
+function Footer(props) {
     
     const style = {
         backgroundColor: "#212529",

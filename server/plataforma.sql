@@ -1,6 +1,6 @@
  DROP DATABASE plataforma;
  USE plataforma;
- 
+ select * from usuarios;
  CREATE DATABASE plataforma;
  CREATE TABLE usuarios(
      id int auto_increment not null,

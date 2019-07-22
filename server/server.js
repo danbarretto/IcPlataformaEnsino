@@ -6,7 +6,11 @@ var sha512 = require("js-sha512").sha512
 const multer = require("multer")
 const fs = require('fs')
 //const https = require('https')
+const port = process.env.PORT || 5000;
 
+app.listen(port, () => console.log(`Listening on port ${port}`));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //Set storage engine
 const storage = multer.diskStorage({
@@ -98,7 +102,7 @@ app.post("/api/insereConta", (req, res) => {
         "','" +
         sha512(postData.senha) +
         "','" +
-        postData.cpf + "','"+postData.data+"')";
+        postData.cpf + "','" + postData.data + "')";
       con.query(queryStr, (error) => {
         if (error) throw error;
         res.sendStatus(200);
@@ -143,24 +147,24 @@ app.get("/api/getLectures", (req, res) => {
 
 app.get("/api/pdfAula", (req, res) => {
   let filePath = `./uploads/${req.query.fileName}`
-  fs.readFile(filePath, (err, data)=>{
-    if(err) console.log(err)
+  fs.readFile(filePath, (err, data) => {
+    if (err) console.log(err)
     res.contentType("application/pdf")
     res.send(data);
   })
 })
 
-app.get('/api/downloadzip', (req, res)=>{
+app.get('/api/downloadzip', (req, res) => {
   let filePath = `./uploads/${req.query.fileName}`
-  fs.readFile(filePath, (err, data)=>{
+  fs.readFile(filePath, (err, data) => {
     if (err) console.log(err)
     res.contentType("application/octet-stream")
     res.send(data)
   })
 })
 
-app.get('/api/searchLect', (req, res)=>{
-  let selectStr =` SELECT aula.*, usuarios.nome, usuarios.sobrenome,complecaoAula.completada
+app.get('/api/searchLect', (req, res) => {
+  let selectStr = ` SELECT aula.*, usuarios.nome, usuarios.sobrenome,complecaoAula.completada
   FROM aula
   LEFT JOIN usuarios 
   ON aula.idUsuarioCriador=usuarios.id
@@ -171,19 +175,19 @@ app.get('/api/searchLect', (req, res)=>{
   AND titulo LIKE '%${req.query.titulo}%'
   AND assunto LIKE '%${req.query.assunto}%'
   ORDER BY aula.id;`
-  
-  con.query(selectStr, (err, result)=>{
-    if(err) console.log("Busca aula err: ", err)
+
+  con.query(selectStr, (err, result) => {
+    if (err) console.log("Busca aula err: ", err)
 
     res.send(JSON.stringify(result))
   })
 })
 
-app.post('/api/completeLect', (req, res)=>{
+app.post('/api/completeLect', (req, res) => {
   let postData = req.body
   const insertString = `INSERT INTO complecaoAula(idAula, idUsuario, completada) VALUES (${postData.idAula}, ${postData.idUser}, 1)`
-  con.query(insertString, (err)=>{
-    if(err){
+  con.query(insertString, (err) => {
+    if (err) {
       console.log(err)
       return err
     }
@@ -191,8 +195,32 @@ app.post('/api/completeLect', (req, res)=>{
   })
 })
 
+app.post('/api/updateInfo', (req, res) => {
+  let postData = req.body
+  let updateStr =''
+  if (postData.senha === 'default') {
+    updateStr = `UPDATE usuarios SET 
+  nome='${postData.nome}', sobrenome='${postData.sobrenome}',
+  dataNasc='${postData.data}', cep='${postData.cep}',
+  cidade='${postData.cidade}', estado='${postData.estado}' WHERE id=${postData.id}`
+  } else {
+    updateStr = `UPDATE usuarios SET 
+  nome='${postData.nome}', sobrenome='${postData.sobrenome}',
+  dataNasc='${postData.data}', cep='${postData.cep}',
+  cidade='${postData.cidade}', estado='${postData.estado}',
+  senha='${sha512(postData.senha)}' WHERE id=${postData.id}`
+  }
+  con.query(updateStr, err => {
+    if (err) {
+      console.log(err)
+      return err
+    }
+    res.sendStatus(200)
+  })
 
-const port = process.env.PORT || 5000;
+
+})
+
 //const options ={}
 
 /*
@@ -201,8 +229,5 @@ app.use((req, res) => {
   res.end('hello world\n')
 })*/
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //https.createServer(options, app).listen(5050)

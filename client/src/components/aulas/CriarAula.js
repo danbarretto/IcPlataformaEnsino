@@ -185,7 +185,6 @@ class CriarAula extends React.Component {
             <option >Vídeo</option>
             <option>Slide</option>
             <option>Executável</option>
-            <option>Jogo Web</option>
           </Form.Control>
         </Form.Group>
         <Form.Group controlId="exampleForm.ControlTextarea1">
