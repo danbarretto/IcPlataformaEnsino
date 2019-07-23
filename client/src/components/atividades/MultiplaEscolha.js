@@ -5,8 +5,8 @@ export default class MultiplaEscolha extends React.Component{
 
 
     render(){
-        const btnStyle1 ={width:'auto', minWidth:'300px', padding:'10px', marginRight:'15px'}
-        const btnStyle2 = { width: 'auto', minWidth: '300px', padding:'10px'}
+        const btnStyle1 ={width:'auto', minWidth:'300px', padding:'10px', margin:'15px'}
+        const btnStyle2 = { width: 'auto', minWidth: '300px', padding:'10px', margin:'15px'}
         return(
             <div style={{paddingLeft:'10px'}}>
                 <div style={{backgroundColor:'#F8F8F8', borderRadius:'5px'}}>

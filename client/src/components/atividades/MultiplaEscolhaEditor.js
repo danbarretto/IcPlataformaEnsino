@@ -15,13 +15,9 @@ export default class MultiplaEscolhaEditor extends React.Component {
             op2: '',
             op3: '',
             op4: '',
-            chosen: '1',
-            enunciadoEdited: false,
-            op1Edited: false,
-            op2Edited: false,
-            op3Edited: false,
-            op4Edited: false,
-            editing: true
+            chosen: '',
+            editing: true,
+            finished:false
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleRadioSelect = this.handleRadioSelect.bind(this)
@@ -30,19 +26,30 @@ export default class MultiplaEscolhaEditor extends React.Component {
     handleChange(event) {
         const { name, value } = event.target;
         this.setState({
-            [name]: value,
-            [`${name}Edited`]: true
+            [name]: value
         });
     }
 
     handleRadioSelect(selected) {
-        console.log(selected)
         this.setState({ chosen: selected })
     }
 
-    componentDidUpdate() {
-        if (this.state.enunciadoEdited && this.state.op1Edited
-            && this.state.op2Edited && this.state.op3Edited && this.state.op4Edited) {
+
+    handleClick() {
+        if(this.state.finished) this.setState({finished:false})
+        
+        if (this.state.enunciado !== '' && this.state.op1 !== ''
+            && this.state.op2 !== '' && this.state.op3 !== ''
+            && this.state.op4 !== '' && this.state.chosen !== '')
+            this.setState({ editing: !this.state.editing })
+        else
+            alert("Preencha todos os campos!")
+    }
+
+    handleFinish = () => {
+        if (this.state.enunciado !== '' && this.state.op1 !== ''
+            && this.state.op2 !== '' && this.state.op3 !== ''
+            && this.state.op4 !== '' && this.state.chosen !== '') {
             let data = {
                 enunciado: this.state.enunciado,
                 op1: this.state.op1,
@@ -51,16 +58,16 @@ export default class MultiplaEscolhaEditor extends React.Component {
                 op4: this.state.op4,
                 answer: this.state.chosen
             }
-            console.log(JSON.stringify(data))
+
+            this.props.onJsonFinished(JSON.stringify(data))
+            this.setState({editing:false, finished:true})
+        } else {
+            alert("Preencha todos os campos!")
         }
     }
 
-    handleClick() {
-        this.setState({ editing: !this.state.editing })
-    }
-
     render() {
-        const styleLeft = { width: '300px',maxHeight:'150px', height: '50px', marginRight: '15px' }
+        const styleLeft = { width: '300px', maxHeight: '150px', height: '50px', marginRight: '15px' }
         const styleRight = { width: '300px', maxHeight: '150px', height: '50px' }
         let form = (<Form>
             <Form.Label>Enunciado</Form.Label>
@@ -75,13 +82,12 @@ export default class MultiplaEscolhaEditor extends React.Component {
                 <Row style={{ padding: '15px' }}>
                     <InputGroup.Prepend >
                         <InputGroup.Radio
-                            checked={true}
                             onClick={() => this.handleRadioSelect('1')}
                             name='options'></InputGroup.Radio>
                     </InputGroup.Prepend>
 
                     <Form.Control
-                        as='textarea' 
+                        as='textarea'
                         name='op1'
                         onChange={this.handleChange}
                         style={styleLeft}
@@ -140,10 +146,10 @@ export default class MultiplaEscolhaEditor extends React.Component {
             <div>
                 {this.state.editing && form}
                 {!this.state.editing && visualization}
-                <div style={{marginTop:'10px'}}>
+                <div style={{ marginTop: '10px' }}>
 
                     <Button style={{ marginRight: '15px' }} onClick={this.handleClick.bind(this)}>{this.state.editing ? 'Visualizar' : 'Editar'}</Button>
-                    <Button variant='success' >Finalizar</Button>
+                    {!this.state.finished && <Button variant='success' onClick={this.handleFinish}>Finalizar</Button>}
                 </div>
             </div>
 

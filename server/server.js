@@ -221,6 +221,37 @@ app.post('/api/updateInfo', (req, res) => {
 
 })
 
+
+app.post('/api/insereAtividade', (req, res)=>{
+  let postData = req.body
+  const insertStr =`INSERT INTO atividade
+    (idUsuarioCriador,
+    titulo,materia,
+    assunto,tipo,jsonAtividade,pontuacao) VALUES
+    (${postData.id}, '${postData.titulo}',
+    '${postData.materia}', '${postData.assunto}',
+    '${postData.tipo}', '${postData.activitieJson}',
+    ${postData.pontuacao});`
+    con.query(insertStr, err=>{
+      if(err){
+        console.log(err)
+        return err
+      }
+      res.sendStatus(200)
+    })
+})
+
+app.get('/api/getActivities', (req, res)=>{
+  const selectStr = `SELECT * FROM atividade WHERE idUsuarioCriador=${req.query.id}`
+  con.query(selectStr, (err, results) =>{
+    if(err){
+      console.log(err)
+      return err
+    }
+    res.send(JSON.stringify(results))
+  })
+})
+
 //const options ={}
 
 /*

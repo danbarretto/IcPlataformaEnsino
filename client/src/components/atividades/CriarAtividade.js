@@ -14,6 +14,7 @@ class CriarAtividade extends React.Component {
       text: "",
       titulo: "",
       assunto: "",
+      activitieJson: ''
     };
     this.handleFormChange = this.handleFormChange.bind(this)
   }
@@ -23,11 +24,49 @@ class CriarAtividade extends React.Component {
     if (e.target.value === "Múltipla Escolha") {
       this.setState({
         rendered: (
-          <MultiplaEscolhaEditor></MultiplaEscolhaEditor>
+          <MultiplaEscolhaEditor
+            onJsonFinished={this.handleJson}
+          ></MultiplaEscolhaEditor>
         )
       });
     }
 
+  }
+
+  handleSubmit() {
+    if (this.state.titulo !== '' && this.state.assunto !== '' && this.state.materia !== ''
+      && this.state.pontuacao !== '' && this.state.tipo !== '' this.state.activitieJson !== '') {
+      const data = {
+        id: localStorage.getItem("id"),
+        titulo: this.state.titulo,
+        materia: this.state.materia,
+        tipo: this.state.tipo,
+        activitieJson: this.state.activitieJson,
+        assunto: this.state.assunto,
+        pontuacao: this.state.pontuacao
+      }
+
+      fetch('/api/insereAtividade', {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      }).then(res => {
+        if (res.ok) {
+          if (alert("Atividade criada com sucesso!"))
+            window.location.reload()
+        }
+      })
+    }else{
+      alert("Preencha todos os campos!")
+    }
+  }
+
+  handleJson = (jsonValue) => {
+    this.setState({ activitieJson: jsonValue })
+    console.log(jsonValue)
   }
 
   handleFormChange(event) {
@@ -60,6 +99,14 @@ class CriarAtividade extends React.Component {
             <option>Química</option>
           </Form.Control>
         </Form.Group>
+        <Form.Group>
+          <Form.Label>Assunto</Form.Label>
+          <Form.Control name="assunto" onChange={this.handleFormChange} type="text"></Form.Control>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Pontuação</Form.Label>
+          <Form.Control name="pontuacao" maxLength={4} onChange={this.handleFormChange} type="number"></Form.Control>
+        </Form.Group>
         <Form.Group controlId="exampleForm.ControlSelect2">
           <Form.Label>Tipo de Atividade</Form.Label>
           <Form.Control defaultValue='Selecione um tipo de Atividade' as="select" onChange={this.handleChange2.bind(this)}>
@@ -74,17 +121,9 @@ class CriarAtividade extends React.Component {
         </Form.Group>
         <Form.Group controlId="exampleForm.ControlTextarea1">
           {this.state.rendered}
-          
+
         </Form.Group>
-        <Form.Group>
-          <Form.Label>Assunto</Form.Label>
-          <Form.Control name="assunto" onChange={this.handleFormChange} type="text"></Form.Control>
-        </Form.Group>
-        <Form.Group>
-          <Form.Label>Pontuação</Form.Label>
-          <Form.Control name="pontuacao" maxLength={4} onChange={this.handleFormChange} type="number"></Form.Control>
-        </Form.Group>
-        <Button >Enviar</Button>
+        <Button onClick={this.handleSubmit.bind(this)}>Enviar</Button>
       </Form>
     );
   }

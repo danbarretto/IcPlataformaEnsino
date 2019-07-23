@@ -1,6 +1,8 @@
  DROP DATABASE plataforma;
  USE plataforma;
- select * from usuarios;
+ select * from atividade;
+
+
  CREATE DATABASE plataforma;
  CREATE TABLE usuarios(
      id int auto_increment not null,
@@ -29,6 +31,8 @@
      caminhoArquivo varchar(200)
  );
 
+
+
  CREATE TABLE atividade(
      id int auto_increment not null,
      primary key (id),
@@ -37,10 +41,12 @@
      titulo varchar(100),
      materia varchar(30),
      assunto varchar(50),
-     tipo varchar(15),
-     caminhoArquivo varchar(200),
+     tipo varchar(50),
+     jsonAtividade TEXT,
      pontuacao int
  );
+
+
 
  CREATE TABLE complecaoAula(
      idAula int not null,

@@ -71,7 +71,7 @@ class Atividades extends React.Component {
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link eventKey="buscarAtividade" onClick={this.searctActivities}>
-                            Buscar Aulas
+                            Buscar Atividades
               </Nav.Link>
                     </Nav.Item>
                 </Nav>
