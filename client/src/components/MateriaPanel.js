@@ -9,7 +9,7 @@ export default class MateriaPanel extends React.Component {
 
     render() {
         return (
-            <div style={{paddingLeft:'25%', paddingRight:'34%'}}>
+            <div className='container'>
 
                 <div style={{backgroundColor: '#F6F6F6', borderRadius: '10px' }}>
                     <Row>

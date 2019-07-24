@@ -6,7 +6,7 @@ import Jumbotron from 'react-bootstrap/Jumbotron';
 import Footer from './components/Footer';
 import NavBar from './components/NavBar';
 var sha512 = require('js-sha512').sha512
-
+var moment = require('moment')
 export default class Perfil extends React.Component {
 
     constructor(props) {
@@ -84,56 +84,59 @@ export default class Perfil extends React.Component {
     }
 
     render() {
+        let dataNasc = localStorage.getItem('dataNasc')
+        dataNasc = moment(dataNasc, 'DD/MM/YYYY')
+        dataNasc = moment(dataNasc).format('YYYY-MM-DD')
         return (<div>
             <NavBar />
             <Jumbotron >
-                <h1>Perfil</h1>
-                <Form style={{ backgroundColor: "#F8F8F8", borderRadius: '5px', padding: '10px' }}>
+                <Form className='container' style={{ backgroundColor: "#F8F8F8", borderRadius: '5px', padding: '10px' }}>
+                    <h1>Perfil</h1>
                     <Form.Row>
 
-                        <Form.Group as={Col} md='3'>
-                            <Form.Label>Nome</Form.Label>
-                            <Form.Control type='text' name='nome' onChange={this.handleFormChange} disabled={this.state.disabled} defaultValue={localStorage.getItem("nome")}></Form.Control>
-                        </Form.Group>
-                        <Form.Group as={Col} md='3'>
-                            <Form.Label>Sobrenome</Form.Label>
-                            <Form.Control type='text' name='sobrenome' onChange={this.handleFormChange} disabled={this.state.disabled} defaultValue={localStorage.getItem("sobrenome")}></Form.Control>
-                        </Form.Group>
-                        <Form.Group as={Col} md='3'>
+                        <Form.Group as={Col} md='6' >
                             <Form.Label>Email</Form.Label>
                             <Form.Control type='text' name='email' disabled={true} defaultValue={localStorage.getItem("email")}></Form.Control>
                         </Form.Group>
-                        <Form.Group as={Col} md='3'>
+                        <Form.Group as={Col} md='6' >
                             <Form.Label>CPF</Form.Label>
                             <Form.Control type='text' name='cpf' disabled={true} defaultValue={localStorage.getItem("cpf")}></Form.Control>
+                        </Form.Group>
+                        <Form.Group as={Col} md='6' >
+                            <Form.Label>Nome</Form.Label>
+                            <Form.Control type='text' name='nome' onChange={this.handleFormChange} disabled={this.state.disabled} defaultValue={localStorage.getItem("nome")}></Form.Control>
+                        </Form.Group>
+                        <Form.Group as={Col} md='6' >
+                            <Form.Label>Sobrenome</Form.Label>
+                            <Form.Control type='text' name='sobrenome' onChange={this.handleFormChange} disabled={this.state.disabled} defaultValue={localStorage.getItem("sobrenome")}></Form.Control>
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
 
-                        <Form.Group as={Col} md='3'>
+                        <Form.Group as={Col} md='6' >
                             <Form.Label>Data de Nascimento</Form.Label>
-                            <Form.Control type='text' name='data' onChange={this.handleFormChange} disabled={this.state.disabled} defaultValue={localStorage.getItem("dataNasc")}></Form.Control>
+                            <Form.Control type='date' name='data' onChange={this.handleFormChange} disabled={this.state.disabled} defaultValue={dataNasc}></Form.Control>
                         </Form.Group>
-                        <Form.Group as={Col} md='3'>
+                        <Form.Group as={Col} md='6' >
                             <Form.Label>CEP</Form.Label>
                             <Form.Control type='text' name='cep' onChange={this.handleFormChange} disabled={this.state.disabled} defaultValue={localStorage.getItem("cep")}></Form.Control>
                         </Form.Group>
-                        <Form.Group as={Col} md='3'>
+                        <Form.Group as={Col} md='6' >
                             <Form.Label>Cidade</Form.Label>
                             <Form.Control type='text' name='cidade' onChange={this.handleFormChange} disabled={this.state.disabled} defaultValue={localStorage.getItem("cidade")}></Form.Control>
                         </Form.Group>
-                        <Form.Group as={Col} md='3'>
+                        <Form.Group as={Col} md='6' >
                             <Form.Label>Estado</Form.Label>
                             <Form.Control type='text' name='estado' onChange={this.handleFormChange} disabled={this.state.disabled} defaultValue={localStorage.getItem("estado")}></Form.Control>
                         </Form.Group>
 
                     </Form.Row>
                     <Form.Row>
-                        <Form.Group as={Col} md='3'>
+                        <Form.Group as={Col} md='6' >
                             <Form.Label>Nova Senha</Form.Label>
                             <Form.Control type='password' name='senha' onChange={this.handleFormChange} disabled={this.state.disabled} ></Form.Control>
                         </Form.Group>
-                        <Form.Group as={Col} md='3'>
+                        <Form.Group as={Col} md='6' >
                             <Form.Label>Confirmar Senha</Form.Label>
                             <Form.Control type='password' name='confirmar' onChange={this.handleFormChange} disabled={this.state.disabled} ></Form.Control>
                         </Form.Group>
@@ -148,19 +151,8 @@ export default class Perfil extends React.Component {
                 </Form>
                 <br></br>
                 <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
+
+
                 <br></br>
                 <br></br>
             </Jumbotron>

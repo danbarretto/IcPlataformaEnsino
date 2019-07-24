@@ -123,7 +123,7 @@ class AulaTable extends React.Component {
     }
     render() {
         return (<div>
-            <Table striped bordered hover style={{ backgroundColor: "#F8F8F8" }}>
+            <Table responsive striped bordered hover style={{backgroundColor:'#F8F8F8'}}>
                 {this.state.tableHead}
                 <tbody>
                     {this.state.elementArray}

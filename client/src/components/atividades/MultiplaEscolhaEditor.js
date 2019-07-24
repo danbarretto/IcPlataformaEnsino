@@ -76,6 +76,7 @@ export default class MultiplaEscolhaEditor extends React.Component {
                 onChange={this.handleChange}
                 name='enunciado'
                 defaultValue={this.state.enunciado}></Form.Control>
+            <br></br>
             <Form.Label>Edite as opções e escolha a correta</Form.Label>
             <InputGroup>
 
@@ -138,7 +139,7 @@ export default class MultiplaEscolhaEditor extends React.Component {
             op3={this.state.op3}
             op4={this.state.op4}
             enunciado={this.state.enunciado}
-            answer={this.state.enunciado}
+            answer={this.state.chosen}
         ></MultiplaEscolha>
 
 

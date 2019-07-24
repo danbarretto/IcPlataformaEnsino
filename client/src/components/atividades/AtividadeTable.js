@@ -76,7 +76,7 @@ export default class AtividadeTable extends React.Component {
         return (
             <div>
 
-                <Table striped bordered hover style={{ backgroundColor: "#F8F8F8" }}>
+                <Table responsive striped bordered hover >
                     {this.state.tableHead}
                     <tbody>
                         {this.state.content}

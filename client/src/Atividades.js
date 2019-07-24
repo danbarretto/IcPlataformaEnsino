@@ -7,39 +7,39 @@ import AtividadeDisplay from './components/atividades/AtividadeDisplay';
 import CriarAtividade from './components/atividades/CriarAtividade';
 
 class Atividades extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
-            showActivities:true,
-            createActivity:false,
-            searchActivity:false
+            showActivities: true,
+            createActivity: false,
+            searchActivity: false
         }
         this.searctActivities = this.searctActivities.bind(this)
         this.showActivities = this.showActivities.bind(this)
         this.createActivity = this.createActivity.bind(this)
     }
 
-    searctActivities(){
+    searctActivities() {
         this.setState({
-            showActivities:false,
-            createActivity:false,
-            searchActivity:true
+            showActivities: false,
+            createActivity: false,
+            searchActivity: true
         })
     }
 
-    showActivities(){
+    showActivities() {
         this.setState({
-            showActivities:true,
-            createActivity:false,
-            searchActivity:false
+            showActivities: true,
+            createActivity: false,
+            searchActivity: false
         })
     }
 
-    createActivity(){
+    createActivity() {
         this.setState({
-            showActivities:false,
-            createActivity:true,
-            searchActivity:false
+            showActivities: false,
+            createActivity: true,
+            searchActivity: false
         })
     }
 
@@ -78,15 +78,18 @@ class Atividades extends React.Component {
         }
         return (<div>
             <NavBar></NavBar>
-            <Jumbotron style={{height:'100%'}}>
-                <h1>Atividades</h1>
-                {atividadeNav}
-                <br></br>
-                <br></br>
-                <br></br>
-                {this.state.showActivities && <AtividadeDisplay></AtividadeDisplay>}
-                {this.state.createActivity && <CriarAtividade></CriarAtividade>}
-                {this.state.searchActivity && 'c'}
+            <Jumbotron style={{ height: '100%' }}>
+                <div className='container' style={{backgroundColor:'#F8F8F8', borderRadius:'5px', padding:'10px'}}>
+                    <h1>Atividades</h1>
+
+                    {atividadeNav}
+                    <br></br>
+                    <br></br>
+                    <br></br>
+                    {this.state.showActivities && <AtividadeDisplay></AtividadeDisplay>}
+                    {this.state.createActivity && <CriarAtividade></CriarAtividade>}
+                    {this.state.searchActivity && 'c'}
+                </div>
             </Jumbotron>
             <Footer></Footer>
         </div>)

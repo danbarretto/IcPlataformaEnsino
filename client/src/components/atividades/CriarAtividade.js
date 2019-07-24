@@ -35,38 +35,42 @@ class CriarAtividade extends React.Component {
 
   handleSubmit() {
     if (this.state.titulo !== '' && this.state.assunto !== '' && this.state.materia !== ''
-      && this.state.pontuacao !== '' && this.state.tipo !== '' this.state.activitieJson !== '') {
-      const data = {
-        id: localStorage.getItem("id"),
-        titulo: this.state.titulo,
-        materia: this.state.materia,
-        tipo: this.state.tipo,
-        activitieJson: this.state.activitieJson,
-        assunto: this.state.assunto,
-        pontuacao: this.state.pontuacao
-      }
+      && this.state.pontuacao !== '' && this.state.tipo !== '') {
+      if (this.state.activitieJson !== '') {
 
-      fetch('/api/insereAtividade', {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      }).then(res => {
-        if (res.ok) {
-          if (alert("Atividade criada com sucesso!"))
-            window.location.reload()
+        const data = {
+          id: localStorage.getItem("id"),
+          titulo: this.state.titulo,
+          materia: this.state.materia,
+          tipo: this.state.tipo,
+          activitieJson: this.state.activitieJson,
+          assunto: this.state.assunto,
+          pontuacao: this.state.pontuacao
         }
-      })
-    }else{
+
+        fetch('/api/insereAtividade', {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        }).then(res => {
+          if (res.ok) {
+            if (!alert("Atividade criada com sucesso!"))
+              window.location.reload()
+          }
+        })
+      } else {
+        alert("Finalize a atividade editada!")
+      }
+    } else {
       alert("Preencha todos os campos!")
     }
   }
 
   handleJson = (jsonValue) => {
     this.setState({ activitieJson: jsonValue })
-    console.log(jsonValue)
   }
 
   handleFormChange(event) {
@@ -79,7 +83,7 @@ class CriarAtividade extends React.Component {
   render() {
 
     return (
-      <Form style={{ paddingRight: '25%', paddingLeft: '25%' }}>
+      <Form className='container'>
         <Form.Group controlId="exampleForm.ControlInput1">
           <Form.Label>Título</Form.Label>
           <Form.Control type="text" name="titulo" onChange={this.handleFormChange} />

@@ -157,7 +157,7 @@ class CriarAula extends React.Component {
   render() {
 
     return (
-      <Form style={{paddingRight:'25%', paddingLeft:'25%'}}>
+      <Form>
         <Form.Group controlId="exampleForm.ControlInput1">
           <Form.Label>Título</Form.Label>
           <Form.Control type="text" name="titulo" onChange={this.handleFormChange} />

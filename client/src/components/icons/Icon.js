@@ -38,7 +38,7 @@ export default class Icon extends React.Component {
                         }}
                         beforeInjection={svg => {
 
-                            svg.setAttribute('style', 'height: 200px;width:200px;margin:30px;cursor:hand')
+                            svg.setAttribute('style', 'height: 200px;width:200px;margin:20px;cursor:hand')
 
                         }}
                         evalScripts="always"

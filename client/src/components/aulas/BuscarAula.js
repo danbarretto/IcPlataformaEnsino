@@ -1,7 +1,5 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
-import Col from 'react-bootstrap/Col';
-import MateriaPanel from '../MateriaPanel'
 import Button from 'react-bootstrap/Button';
 import AulaTable from './AulaTable';
 
@@ -30,28 +28,22 @@ export default class BuscarAula extends React.Component {
         });
     }
 
-
-
-    handleSelect(e) {
-        this.setState({ tipo: e.target.value })
-    }
-
     buscarAula() {
-        this.setState({
-            table: <AulaTable
-                option='2'
-                titulo={this.state.titulo}
-                materia={this.state.materia}
-                tipo={this.state.tipo}
-                assunto={this.state.assunto}
-                hideContent={this.hidePageContent}
-            ></AulaTable>, showTable: true
-        })
+        if (this.state.titulo !== '')
+            this.setState({
+                table: <AulaTable
+                    option='2'
+                    titulo={this.state.titulo}
+                    materia={this.state.materia}
+                    tipo={this.state.tipo}
+                    assunto={this.state.assunto}
+                    hideContent={this.hidePageContent}
+                ></AulaTable>, showTable: true
+            })
+        else
+            alert("Preencha os campos obrigatórios!")
     }
-    getCurrentMateria = (newMateria) => {
-        window.scrollBy(0, 500)
-        this.setState({ materia: newMateria })
-    }
+
 
     hidePageContent = () => {
         this.setState({ hideContent: true })
@@ -59,16 +51,30 @@ export default class BuscarAula extends React.Component {
 
     render() {
         let form = <div>
-            <h2 style={{ paddingLeft: '25%' }}>Selecione a Matéria</h2>
-            <MateriaPanel changeMateria={this.getCurrentMateria}></MateriaPanel>
-            <Form style={{ paddingLeft: '25%' }}>
-                <Form.Group as={Col} md='6'>
+            <Form>
+
+                <Form.Group>
                     <Form.Label>Título (obrigatório)</Form.Label>
                     <Form.Control name='titulo' onChange={this.handleFormChange} type='text'></Form.Control>
                 </Form.Group>
-                <Form.Group as={Col} md='6'>
+                <Form.Group>
+                    <Form.Label>Matéria</Form.Label>
+                    <Form.Control name='materia' defaultValue='Selecione uma Matéria' onChange={this.handleFormChange} as='select'>
+                        <option disabled="disabled">Selecione uma Matéria</option>
+                        <option>Português</option>
+                        <option>Matemática</option>
+                        <option>História</option>
+                        <option>Geografia</option>
+                        <option>Sociologia</option>
+                        <option>Filosofia</option>
+                        <option>Biologia</option>
+                        <option>Física</option>
+                        <option>Química</option>
+                    </Form.Control>
+                </Form.Group>
+                <Form.Group>
                     <Form.Label>Tipo de Aula</Form.Label>
-                    <Form.Control onChange={this.handleSelect} as='select'>
+                    <Form.Control name='tipo' onChange={this.handleFormChange} as='select'>
                         <option selected='selected' disabled='disabled'>Selecione um tipo de aula</option>
                         <option>Texto</option>
                         <option>Slide</option>
@@ -77,7 +83,7 @@ export default class BuscarAula extends React.Component {
                         <option>Jogo Web</option>
                     </Form.Control>
                 </Form.Group>
-                <Form.Group as={Col} md='6'>
+                <Form.Group>
                     <Form.Label>Assunto</Form.Label>
                     <Form.Control name='assunto' onChange={this.handleFormChange} type='text'></Form.Control>
                     <br></br>

@@ -39,6 +39,7 @@ class AulaDisplay extends React.Component {
         }).then(res=>{
             if(res.ok){
                 alert("Aula completada!")
+                window.location.reload()
             }
         })
     }

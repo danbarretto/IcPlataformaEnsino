@@ -1,25 +1,43 @@
 import React from 'react'
 import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
-export default class MultiplaEscolha extends React.Component{
+export default class MultiplaEscolha extends React.Component {
 
 
-    render(){
-        const btnStyle1 ={width:'auto', minWidth:'300px', padding:'10px', margin:'15px'}
-        const btnStyle2 = { width: 'auto', minWidth: '300px', padding:'10px', margin:'15px'}
-        return(
-            <div style={{paddingLeft:'10px'}}>
-                <div style={{backgroundColor:'#F8F8F8', borderRadius:'5px'}}>
+    constructor(props) {
+        super(props)
+        this.handleAnswer = this.handleAnswer.bind(this)
+        this.state = {
+
+
+        }
+    }
+
+    handleAnswer(event) {
+        if (this.props.answer === event.target.name) {
+            alert("Certo")
+        } else {
+            alert('Errado')
+        }
+    }
+
+    render() {
+        const btnStyle = { width: '40%', padding: '10px', margin: '10px' }
+        return (
+            <div className='container'>
+                <div style={{ padding: '10px', backgroundColor: '#F8F8F8', borderRadius: '5px', }}>
                     {this.props.enunciado}
                 </div>
-                <Row style={{marginBottom:'5px'}}>
-                    <Button style={btnStyle1} variant='info'>{this.props.op1}</Button>
-                    <Button style={btnStyle2} variant='danger'>{this.props.op2}</Button>
-                </Row>
-                <Row>
-                    <Button style={btnStyle1} variant='success'>{this.props.op3}</Button>
-                    <Button style={btnStyle2} variant='warning'>{this.props.op2}</Button>
-                </Row>
+                <div>
+                    <Row>
+                        <Button style={btnStyle} name='1' onClick={this.handleAnswer} variant='info'>{this.props.op1}</Button>
+                        <Button style={btnStyle} name='2' onClick={this.handleAnswer} variant='danger'>{this.props.op2}</Button>
+                    </Row>
+                    <Row>
+                        <Button style={btnStyle} name='3' onClick={this.handleAnswer} variant='success'>{this.props.op3}</Button>
+                        <Button style={btnStyle} name='4' onClick={this.handleAnswer} variant='warning'>{this.props.op4}</Button>
+                    </Row>
+                </div>
             </div>
         )
     }

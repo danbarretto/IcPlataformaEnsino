@@ -86,27 +86,31 @@ class Aulas extends React.Component {
     return (
       <div >
         <NavBar />
-        <Jumbotron style={{ minHeight: '100%' }}>
-          <h1>Aulas</h1>
+        <Jumbotron >
+          <div className='container' style={{backgroundColor:'#F8F8F8', borderRadius:'5px', padding:'10px'}}>
 
-          {aulaNav}
-          <br></br>
-          <br></br>
-          <br></br>
-          <div>
-            {this.state.createLect && <CriarAula></CriarAula>}
-            {this.state.showLect && <AulaTable option='1' ></AulaTable>}
-            {this.state.searchLect && <BuscarAula></BuscarAula>}
+            <h1>Aulas</h1>
+
+            {aulaNav}
+            <br></br>
+            <br></br>
+            <br></br>
+            <div>
+              {this.state.createLect && <CriarAula></CriarAula>}
+              {this.state.showLect && <AulaTable option='1' ></AulaTable>}
+              {this.state.searchLect && <BuscarAula></BuscarAula>}
+            </div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            
           </div>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
         </Jumbotron>
         <Footer position={this.state.position}></Footer>
       </div>

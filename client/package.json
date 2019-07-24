@@ -9,6 +9,7 @@
     "express": "^4.16.4",
     "js-file-download": "^0.4.7",
     "js-sha512": "^0.8.0",
+    "moment": "^2.24.0",
     "mssql": "^5.1.0",
     "pdf.js": "^0.1.0",
     "react": "^16.8.6",
