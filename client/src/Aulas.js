@@ -82,6 +82,9 @@ class Aulas extends React.Component {
               </Nav.Link>
           </Nav.Item>
         </Nav>
+    }else{
+      if (!alert("Você deve realizar login primeiro!"))
+        window.location.replace('/')
     }
     return (
       <div >

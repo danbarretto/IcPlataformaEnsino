@@ -1,7 +1,6 @@
  DROP DATABASE plataforma;
- USE plataforma;
- select * from atividade;
-
+ use plataforma;
+select * from usuarios;
 
  CREATE DATABASE plataforma;
  CREATE TABLE usuarios(
@@ -16,7 +15,8 @@
      cep varchar(10),
      senha varchar(300),
      cpf varchar(15),
-     dataNasc varchar(10)
+     dataNasc varchar(10),
+     pontuacao int
  );
  CREATE TABLE aula(
      id int auto_increment not null,

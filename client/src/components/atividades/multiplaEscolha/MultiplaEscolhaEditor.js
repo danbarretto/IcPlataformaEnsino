@@ -16,6 +16,7 @@ export default class MultiplaEscolhaEditor extends React.Component {
             op3: '',
             op4: '',
             chosen: '',
+            explicacao:'',
             editing: true,
             finished:false
         }
@@ -40,7 +41,7 @@ export default class MultiplaEscolhaEditor extends React.Component {
         
         if (this.state.enunciado !== '' && this.state.op1 !== ''
             && this.state.op2 !== '' && this.state.op3 !== ''
-            && this.state.op4 !== '' && this.state.chosen !== '')
+            && this.state.op4 !== '' && this.state.chosen !== '' && this.state.explicacao!=='')
             this.setState({ editing: !this.state.editing })
         else
             alert("Preencha todos os campos!")
@@ -49,14 +50,15 @@ export default class MultiplaEscolhaEditor extends React.Component {
     handleFinish = () => {
         if (this.state.enunciado !== '' && this.state.op1 !== ''
             && this.state.op2 !== '' && this.state.op3 !== ''
-            && this.state.op4 !== '' && this.state.chosen !== '') {
+            && this.state.op4 !== '' && this.state.chosen !== '' && this.state.explicacao!=='') {
             let data = {
                 enunciado: this.state.enunciado,
                 op1: this.state.op1,
                 op2: this.state.op2,
                 op3: this.state.op3,
                 op4: this.state.op4,
-                answer: this.state.chosen
+                answer: this.state.chosen,
+                explicacao:this.state.explicacao
             }
 
             this.props.onJsonFinished(JSON.stringify(data))
@@ -128,10 +130,8 @@ export default class MultiplaEscolhaEditor extends React.Component {
                         defaultValue={this.state.op4}></Form.Control>
                 </Row>
             </InputGroup>
-
-
-
-
+            <Form.Label>Explicação</Form.Label>
+            <Form.Control onChange={this.handleChange} name='explicacao' as='textarea'></Form.Control>
         </Form>)
         let visualization = <MultiplaEscolha
             op1={this.state.op1}
@@ -140,6 +140,7 @@ export default class MultiplaEscolhaEditor extends React.Component {
             op4={this.state.op4}
             enunciado={this.state.enunciado}
             answer={this.state.chosen}
+            explicacao={this.state.explicacao}
         ></MultiplaEscolha>
 
 

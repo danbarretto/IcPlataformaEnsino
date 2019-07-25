@@ -87,6 +87,10 @@ export default class Perfil extends React.Component {
         let dataNasc = localStorage.getItem('dataNasc')
         dataNasc = moment(dataNasc, 'DD/MM/YYYY')
         dataNasc = moment(dataNasc).format('YYYY-MM-DD')
+        if(localStorage.length===0){
+            if (!alert("Você deve realizar login primeiro!"))
+                window.location.replace('/')
+        }
         return (<div>
             <NavBar />
             <Jumbotron >

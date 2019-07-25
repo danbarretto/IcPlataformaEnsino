@@ -1,6 +1,7 @@
 import React from 'react'
 import Table from 'react-bootstrap/Table';
-import MultiplaEscolha from './MultiplaEscolha';
+import MultiplaEscolha from './multiplaEscolha/MultiplaEscolha';
+import CompletarLacunas from './completarLacunas/CompletarLacunas';
 
 export default class AtividadeTable extends React.Component {
 
@@ -37,7 +38,7 @@ export default class AtividadeTable extends React.Component {
                 let temp = []
                 res.json().then(result => {
                     result.forEach(element => {
-                        temp.push(<tr style={{cursor:'pointer'}} onClick={() => this.changeCurrentActivitie(element)}>
+                        temp.push(<tr key={element.id} style={{ cursor: 'pointer' }} onClick={() => this.changeCurrentActivitie(element)}>
                             <td>{element.titulo}</td>
                             <td>{element.materia}</td>
                             <td>{element.assunto}</td>
@@ -51,21 +52,27 @@ export default class AtividadeTable extends React.Component {
     }
 
     changeCurrentActivitie(activitie) {
+        let data = JSON.parse(activitie.jsonAtividade)
         switch (activitie.tipo) {
             case "Múltipla Escolha":
-                let data = JSON.parse(activitie.jsonAtividade)
                 this.setState({
-                    rendered:<MultiplaEscolha
-                    enunciado={data.enunciado}
-                    op1={data.op1}
-                    op2={data.op2}
-                    op3={data.op3}
-                    op4={data.op4}
-                    answer={data.answer}
+                    rendered: <MultiplaEscolha
+                        key={activitie.id}
+                        data={data}
+                        pontuacao={activitie.pontuacao}
+                        id={activitie.id}
                     />
-            })
-
+                })
                 break;
+            case "Completar Lacunas":
+                this.setState({rendered:<CompletarLacunas
+                    key={activitie.id}
+                    data={data}
+                    pontuacao={activitie.pontuacao}
+                    id={activitie.id}
+                ></CompletarLacunas>})
+                break;
+            
         }
     }
 

@@ -2,7 +2,8 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import 'react-quill/dist/quill.snow.css';
-import MultiplaEscolhaEditor from "./MultiplaEscolhaEditor";
+import MultiplaEscolhaEditor from "./multiplaEscolha/MultiplaEscolhaEditor";
+import CompletarEditor from "./completarLacunas/CompletarEditor";
 
 class CriarAtividade extends React.Component {
   constructor(...args) {
@@ -21,14 +22,22 @@ class CriarAtividade extends React.Component {
 
   handleChange2(e) {
     this.setState({ tipo: e.target.value });
-    if (e.target.value === "Múltipla Escolha") {
-      this.setState({
-        rendered: (
-          <MultiplaEscolhaEditor
+    switch (e.target.value) {
+      case "Múltipla Escolha":
+        this.setState({
+          rendered: (
+            <MultiplaEscolhaEditor
+              onJsonFinished={this.handleJson}
+            ></MultiplaEscolhaEditor>
+          )
+        });
+        break;
+      case "Completar Lacunas":
+        this.setState({
+          rendered: <CompletarEditor
             onJsonFinished={this.handleJson}
-          ></MultiplaEscolhaEditor>
-        )
-      });
+          ></CompletarEditor>
+        });
     }
 
   }

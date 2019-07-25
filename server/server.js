@@ -67,7 +67,7 @@ app.get("/api/login", (req, res) => {
   var selectStr = `SELECT 
   id, permissao,nome,sobrenome,
   email,cidade, estado,
-  cep, cpf, dataNasc
+  cep, cpf, dataNasc, pontuacao
   FROM usuarios WHERE email='${req.query.email}' AND senha='${sha512(req.query.senha)}';`
   con.query(selectStr, (errorQuery, result, fields) => {
     if (errorQuery) console.log("Erro sql login: " + errorQuery)
@@ -86,7 +86,7 @@ app.post("/api/insereConta", (req, res) => {
       res.sendStatus(403)
     } else {
       var queryStr =
-        "insert into usuarios (permissao, nome, sobrenome, email, cidade, cep, estado, senha, cpf, dataNasc) values (" +
+        "insert into usuarios (permissao, nome, sobrenome, email, cidade, cep, estado, senha, cpf, dataNasc, pontuacao) values (" +
         "1,'" +
         postData.nome +
         "','" +
@@ -102,7 +102,7 @@ app.post("/api/insereConta", (req, res) => {
         "','" +
         sha512(postData.senha) +
         "','" +
-        postData.cpf + "','" + postData.data + "')";
+        postData.cpf + "','" + postData.data + "',0)";
       con.query(queryStr, (error) => {
         if (error) throw error;
         res.sendStatus(200);
@@ -252,13 +252,33 @@ app.get('/api/getActivities', (req, res)=>{
   })
 })
 
-//const options ={}
-
-/*
-app.use((req, res) => {
-  res.writeHead(200)
-  res.end('hello world\n')
-})*/
-
-
-//https.createServer(options, app).listen(5050)
+app.post('/api/updateScore', (req, res)=>{
+  const postData = req.body
+  const checkCompletionStr = `SELECT * FROM complecaoAtividade WHERE idUsuario=${postData.idUser} AND idAtividade=${postData.id}`
+  con.query(checkCompletionStr, (err, result1)=>{
+    if(err){
+      console.log(err)
+      return err
+    }
+    if(result1.length===0){
+      const insertStr =`INSERT INTO complecaoAtividade
+      (idUsuario,idAtividade,completada) VALUES (${postData.idUser}, ${postData.id}, 1);`
+      con.query(insertStr, (errInsert)=>{
+        if(errInsert){
+          console.log(errInsert)
+          return errInsert
+        }
+        const updateStr = `UPDATE usuarios SET pontuacao = pontuacao + ${postData.points} WHERE id=${postData.idUser};`
+        con.query(updateStr, updateErr=>{
+          if(updateErr){
+            console.log(updateErr)
+            return updateErr
+          }
+          res.sendStatus(200)
+        })
+      })
+    }else{
+      res.sendStatus(403)
+    }
+  })
+})
