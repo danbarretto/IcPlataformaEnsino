@@ -22,7 +22,8 @@ export default class QuestaoAberta extends React.Component {
             idUser: localStorage.getItem('id'),
             id: this.props.id,
             points: this.props.pontuacao,
-            status: 'Pendente'
+            status: 'Pendente',
+            resposta:this.state.resposta
         }
         fetch('/api/updateScore', {
             method: "POST",

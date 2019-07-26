@@ -1,8 +1,6 @@
 import React from 'react'
 import Table from 'react-bootstrap/Table';
-import MultiplaEscolha from './multiplaEscolha/MultiplaEscolha';
-import CompletarLacunas from './completarLacunas/CompletarLacunas';
-import QuestaoAberta from './questaoAberta/QuestaoAberta';
+
 
 export default class AtividadeTable extends React.Component {
 
@@ -11,7 +9,6 @@ export default class AtividadeTable extends React.Component {
         this.state = {
             tableHead: null,
             content: null,
-            rendered: null
         }
     }
 
@@ -39,7 +36,7 @@ export default class AtividadeTable extends React.Component {
                 let temp = []
                 res.json().then(result => {
                     result.forEach(element => {
-                        temp.push(<tr key={element.id} style={{ cursor: 'pointer' }} onClick={() => this.changeCurrentActivitie(element)}>
+                        temp.push(<tr key={element.id} style={{ cursor: 'pointer' }} onClick={() => this.props.onChangeActivitie(element)}>
                             <td>{element.titulo}</td>
                             <td>{element.materia}</td>
                             <td>{element.assunto}</td>
@@ -50,39 +47,6 @@ export default class AtividadeTable extends React.Component {
                     this.setState({ content: temp })
                 })
             })
-    }
-
-    changeCurrentActivitie(activitie) {
-        let data = JSON.parse(activitie.jsonAtividade)
-        switch (activitie.tipo) {
-            case "Múltipla Escolha":
-                this.setState({
-                    rendered: <MultiplaEscolha
-                        key={activitie.id}
-                        data={data}
-                        pontuacao={activitie.pontuacao}
-                        id={activitie.id}
-                        testing={false}
-                    />
-                })
-                break;
-            case "Completar Lacunas":
-                this.setState({rendered:<CompletarLacunas
-                    key={activitie.id}
-                    data={data}
-                    pontuacao={activitie.pontuacao}
-                    id={activitie.id}
-                ></CompletarLacunas>})
-                break;
-            case "Questão Aberta":
-                this.setState({rendered:<QuestaoAberta
-                    key={activitie.id}
-                    data={data}
-                    pontuacao={activitie.pontuacao}
-                    id={activitie.id}
-                ></QuestaoAberta>})
-            
-        }
     }
 
     componentDidMount() {
@@ -98,7 +62,6 @@ export default class AtividadeTable extends React.Component {
                         {this.state.content}
                     </tbody>
                 </Table>
-                {this.state.rendered}
             </div>
         )
     }

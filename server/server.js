@@ -197,7 +197,7 @@ app.post('/api/completeLect', (req, res) => {
 
 app.post('/api/updateInfo', (req, res) => {
   let postData = req.body
-  let updateStr =''
+  let updateStr = ''
   if (postData.senha === 'default') {
     updateStr = `UPDATE usuarios SET 
   nome='${postData.nome}', sobrenome='${postData.sobrenome}',
@@ -222,9 +222,9 @@ app.post('/api/updateInfo', (req, res) => {
 })
 
 
-app.post('/api/insereAtividade', (req, res)=>{
+app.post('/api/insereAtividade', (req, res) => {
   let postData = req.body
-  const insertStr =`INSERT INTO atividade
+  const insertStr = `INSERT INTO atividade
     (idUsuarioCriador,
     titulo,materia,
     assunto,tipo,jsonAtividade,pontuacao) VALUES
@@ -232,19 +232,19 @@ app.post('/api/insereAtividade', (req, res)=>{
     '${postData.materia}', '${postData.assunto}',
     '${postData.tipo}', '${postData.activitieJson}',
     ${postData.pontuacao});`
-    con.query(insertStr, err=>{
-      if(err){
-        console.log(err)
-        return err
-      }
-      res.sendStatus(200)
-    })
+  con.query(insertStr, err => {
+    if (err) {
+      console.log(err)
+      return err
+    }
+    res.sendStatus(200)
+  })
 })
 
-app.get('/api/getActivities', (req, res)=>{
+app.get('/api/getActivities', (req, res) => {
   const selectStr = `SELECT * FROM atividade WHERE idUsuarioCriador=${req.query.id}`
-  con.query(selectStr, (err, results) =>{
-    if(err){
+  con.query(selectStr, (err, results) => {
+    if (err) {
       console.log(err)
       return err
     }
@@ -252,37 +252,63 @@ app.get('/api/getActivities', (req, res)=>{
   })
 })
 
-app.post('/api/updateScore', (req, res)=>{
+app.post('/api/updateScore', (req, res) => {
   const postData = req.body
   const checkCompletionStr = `SELECT * FROM complecaoAtividade WHERE idUsuario=${postData.idUser} AND idAtividade=${postData.id}`
-  con.query(checkCompletionStr, (err, result1)=>{
-    if(err){
+  con.query(checkCompletionStr, (err, result1) => {
+    if (err) {
       console.log(err)
       return err
     }
-    if(result1.length===0){
-      const insertStr =`INSERT INTO complecaoAtividade
-      (idUsuario,idAtividade,statusAtividade) VALUES (${postData.idUser}, ${postData.id}, '${postData.status}');`
-      con.query(insertStr, (errInsert)=>{
-        if(errInsert){
+    if (result1.length === 0) {
+      let insertStr = ''
+      if (postData.resposta === undefined) {
+        insertStr = `INSERT INTO complecaoAtividade
+        (idUsuario,idAtividade,statusAtividade) VALUES (${postData.idUser}, ${postData.id}, '${postData.status}');`
+      } else {
+        insertStr = `INSERT INTO complecaoAtividade
+        (idUsuario,idAtividade,statusAtividade, resposta) VALUES (${postData.idUser}, ${postData.id}, '${postData.status}', '${postData.resposta}');`
+
+      }
+      con.query(insertStr, (errInsert) => {
+        if (errInsert) {
           console.log(errInsert)
           return errInsert
         }
         let points = 0
-        if(postData.status==='Finalizada'){
+        if (postData.status === 'Finalizada') {
           points = postData.points
         }
         const updateStr = `UPDATE usuarios SET pontuacao = pontuacao + ${points} WHERE id=${postData.idUser};`
-        con.query(updateStr, updateErr=>{
-          if(updateErr){
+        con.query(updateStr, updateErr => {
+          if (updateErr) {
             console.log(updateErr)
             return updateErr
           }
           res.sendStatus(200)
         })
       })
-    }else{
+    } else {
       res.sendStatus(403)
     }
+  })
+})
+
+app.get('/api/getSubmissions', (req, res) => {
+  const selectStr = `SELECT c.*,
+   a.jsonAtividade,
+   a.titulo,
+   u.nome,
+   u.sobrenome
+   FROM complecaoAtividade AS c
+   LEFT JOIN atividade AS a ON a.id=c.idAtividade
+   LEFT JOIN usuarios AS u ON u.id=c.idUsuario 
+   WHERE a.idUsuarioCriador=${req.query.id} AND c.statusAtividade='Pendente';`
+  con.query(selectStr, (err, result) => {
+    if (err) {
+      console.log(err)
+      return err
+    }
+    res.send(JSON.stringify(result))
   })
 })

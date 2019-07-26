@@ -1,6 +1,5 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import 'react-quill/dist/quill.snow.css';
 import MultiplaEscolhaEditor from "./multiplaEscolha/MultiplaEscolhaEditor";
 import CompletarEditor from "./completarLacunas/CompletarEditor";
@@ -46,6 +45,9 @@ class CriarAtividade extends React.Component {
             onJsonFinished={this.handleSubmit}
           ></QuestaoAbertaEditor>
         })
+        break;
+        default:
+          break;
     }
 
   }

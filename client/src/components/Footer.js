@@ -1,7 +1,8 @@
 import React from 'react'
 
-function Footer(props) {
+function Footer() {
     
+
     const style = {
         backgroundColor: "#212529",
         color:'white',
@@ -14,13 +15,11 @@ function Footer(props) {
         width: "100%",
         marginTop:"-60px",
         clear:"both",
-        minTop:'100%'
 
     }
 
     return (
         <footer >
-            <div/>
                 <div style={style}>
                     <p>Desenvolvido por Daniel Sá Barretto Prado Garcia</p>
                 </div>

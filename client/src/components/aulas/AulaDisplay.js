@@ -74,8 +74,8 @@ class AulaDisplay extends React.Component {
             case "Executável":
                 content =
                     <div>
-                        <Button onClick={this.handleDownloadClick.bind(this)}>Baixar</Button>
                         <p>{this.props.element.caminhoArquivo}</p>
+                        <Button onClick={this.handleDownloadClick.bind(this)}>Baixar</Button>
                     </div>
                 break;
             default:
@@ -91,7 +91,7 @@ class AulaDisplay extends React.Component {
                 <h1>{this.props.element.titulo}</h1>
                 <h2>{this.props.element.assunto}</h2>
                 {content}
-                <Button onClick={this.handleCompleteClick.bind(this)}>Concluir aula</Button>
+                <Button style={{marginTop:'10px'}} onClick={this.handleCompleteClick.bind(this)}>Concluir aula</Button>
             </div>
         )
     }
