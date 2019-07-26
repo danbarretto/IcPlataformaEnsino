@@ -131,16 +131,21 @@ export default class MultiplaEscolhaEditor extends React.Component {
                 </Row>
             </InputGroup>
             <Form.Label>Explicação</Form.Label>
-            <Form.Control onChange={this.handleChange} name='explicacao' as='textarea'></Form.Control>
+            <Form.Control defaultValue={this.state.explicacao} onChange={this.handleChange} name='explicacao' as='textarea'></Form.Control>
         </Form>)
+        let data={
+            enunciado:this.state.enunciado,
+            op1: this.state.op1,
+            op2: this.state.op2,
+            op3: this.state.op3,
+            op4: this.state.op4,
+            answer:this.state.chosen,
+            explicacao:this.state.explicacao
+        }
         let visualization = <MultiplaEscolha
-            op1={this.state.op1}
-            op2={this.state.op2}
-            op3={this.state.op3}
-            op4={this.state.op4}
-            enunciado={this.state.enunciado}
-            answer={this.state.chosen}
-            explicacao={this.state.explicacao}
+            data={data}
+            testing={true}
+            
         ></MultiplaEscolha>
 
 

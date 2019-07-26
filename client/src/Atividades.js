@@ -61,28 +61,28 @@ class Atividades extends React.Component {
 
                         <Nav.Link eventKey="suasAtividades" onClick={this.showActivities}>
                             Suas Atividades
-          </Nav.Link>
+                        </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
 
                         <Nav.Link eventKey="criarAtividade" onClick={this.createActivity}>
                             Criar Atividades
-              </Nav.Link>
+                        </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link eventKey="buscarAtividade" onClick={this.searctActivities}>
                             Buscar Atividades
-              </Nav.Link>
+                        </Nav.Link>
                     </Nav.Item>
                 </Nav>
-        }else{
-            if(!alert("Você deve realizar login primeiro!"))
+        } else {
+            if (!alert("Você deve realizar login primeiro!"))
                 window.location.replace('/')
         }
         return (<div>
             <NavBar></NavBar>
             <Jumbotron style={{ height: '100%' }}>
-                <div className='container' style={{backgroundColor:'#F8F8F8', borderRadius:'5px', padding:'10px'}}>
+                <div className='container' style={{ backgroundColor: '#F8F8F8', borderRadius: '5px', padding: '10px' }}>
                     <h1>Atividades</h1>
 
                     {atividadeNav}

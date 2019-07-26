@@ -262,13 +262,17 @@ app.post('/api/updateScore', (req, res)=>{
     }
     if(result1.length===0){
       const insertStr =`INSERT INTO complecaoAtividade
-      (idUsuario,idAtividade,completada) VALUES (${postData.idUser}, ${postData.id}, 1);`
+      (idUsuario,idAtividade,statusAtividade) VALUES (${postData.idUser}, ${postData.id}, '${postData.status}');`
       con.query(insertStr, (errInsert)=>{
         if(errInsert){
           console.log(errInsert)
           return errInsert
         }
-        const updateStr = `UPDATE usuarios SET pontuacao = pontuacao + ${postData.points} WHERE id=${postData.idUser};`
+        let points = 0
+        if(postData.status==='Finalizada'){
+          points = postData.points
+        }
+        const updateStr = `UPDATE usuarios SET pontuacao = pontuacao + ${points} WHERE id=${postData.idUser};`
         con.query(updateStr, updateErr=>{
           if(updateErr){
             console.log(updateErr)

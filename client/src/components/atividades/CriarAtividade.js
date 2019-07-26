@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import 'react-quill/dist/quill.snow.css';
 import MultiplaEscolhaEditor from "./multiplaEscolha/MultiplaEscolhaEditor";
 import CompletarEditor from "./completarLacunas/CompletarEditor";
+import QuestaoAbertaEditor from "./questaoAberta/QuestaoAbertaEditor";
 
 class CriarAtividade extends React.Component {
   constructor(...args) {
@@ -27,7 +28,7 @@ class CriarAtividade extends React.Component {
         this.setState({
           rendered: (
             <MultiplaEscolhaEditor
-              onJsonFinished={this.handleJson}
+              onJsonFinished={this.handleSubmit}
             ></MultiplaEscolhaEditor>
           )
         });
@@ -35,52 +36,53 @@ class CriarAtividade extends React.Component {
       case "Completar Lacunas":
         this.setState({
           rendered: <CompletarEditor
-            onJsonFinished={this.handleJson}
+            onJsonFinished={this.handleSubmit}
           ></CompletarEditor>
         });
+        break;
+      case "Questão Aberta":
+        this.setState({
+          rendered: <QuestaoAbertaEditor
+            onJsonFinished={this.handleSubmit}
+          ></QuestaoAbertaEditor>
+        })
     }
 
   }
 
-  handleSubmit() {
+  handleSubmit = (jsonValue) => {
     if (this.state.titulo !== '' && this.state.assunto !== '' && this.state.materia !== ''
       && this.state.pontuacao !== '' && this.state.tipo !== '') {
-      if (this.state.activitieJson !== '') {
-
-        const data = {
-          id: localStorage.getItem("id"),
-          titulo: this.state.titulo,
-          materia: this.state.materia,
-          tipo: this.state.tipo,
-          activitieJson: this.state.activitieJson,
-          assunto: this.state.assunto,
-          pontuacao: this.state.pontuacao
-        }
-
-        fetch('/api/insereAtividade', {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        }).then(res => {
-          if (res.ok) {
-            if (!alert("Atividade criada com sucesso!"))
-              window.location.reload()
-          }
-        })
-      } else {
-        alert("Finalize a atividade editada!")
+      const data = {
+        id: localStorage.getItem("id"),
+        titulo: this.state.titulo,
+        materia: this.state.materia,
+        tipo: this.state.tipo,
+        activitieJson: jsonValue,
+        assunto: this.state.assunto,
+        pontuacao: this.state.pontuacao
       }
+
+      fetch('/api/insereAtividade', {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+      }).then(res => {
+        if (res.ok) {
+          if (!alert("Atividade criada com sucesso!"))
+            window.location.reload()
+        }
+      })
+
     } else {
       alert("Preencha todos os campos!")
     }
   }
 
-  handleJson = (jsonValue) => {
-    this.setState({ activitieJson: jsonValue })
-  }
+
 
   handleFormChange(event) {
     const { name, value } = event.target;
@@ -136,7 +138,6 @@ class CriarAtividade extends React.Component {
           {this.state.rendered}
 
         </Form.Group>
-        <Button onClick={this.handleSubmit.bind(this)}>Enviar</Button>
       </Form>
     );
   }

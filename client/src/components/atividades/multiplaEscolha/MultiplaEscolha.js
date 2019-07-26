@@ -26,7 +26,8 @@ export default class MultiplaEscolha extends React.Component {
                 showAnswerBox: true,
             })
             event.target.style.boxShadow = '0 0 0 3px #2ecc71'
-            this.registerScore()
+            if(!this.props.testing)
+                this.registerScore()
         } else {
             this.setState({
                 feedback: 'Poxa, não foi dessa vez.',
@@ -43,7 +44,8 @@ export default class MultiplaEscolha extends React.Component {
         let data = {
             idUser: localStorage.getItem('id'),
             id: this.props.id,
-            points: this.props.pontuacao
+            points: this.props.pontuacao,
+            status:'Finalizada'
         }
         fetch('/api/updateScore', {
             method: "POST",
@@ -58,9 +60,7 @@ export default class MultiplaEscolha extends React.Component {
                 console.log(parseInt(parseInt(localStorage.getItem('pontuacao'),10) + this.props.pontuacao, 10))
                 localStorage.setItem('pontuacao', parseInt(parseInt(localStorage.getItem('pontuacao'), 10) + this.props.pontuacao, 10))
             }
-            if (!alert('Atividade completa!')) {
-                window.location.reload('/')
-            }
+            
         })
     }
 

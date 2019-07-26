@@ -2,6 +2,7 @@ import React from 'react'
 import Table from 'react-bootstrap/Table';
 import MultiplaEscolha from './multiplaEscolha/MultiplaEscolha';
 import CompletarLacunas from './completarLacunas/CompletarLacunas';
+import QuestaoAberta from './questaoAberta/QuestaoAberta';
 
 export default class AtividadeTable extends React.Component {
 
@@ -61,6 +62,7 @@ export default class AtividadeTable extends React.Component {
                         data={data}
                         pontuacao={activitie.pontuacao}
                         id={activitie.id}
+                        testing={false}
                     />
                 })
                 break;
@@ -72,6 +74,13 @@ export default class AtividadeTable extends React.Component {
                     id={activitie.id}
                 ></CompletarLacunas>})
                 break;
+            case "Questão Aberta":
+                this.setState({rendered:<QuestaoAberta
+                    key={activitie.id}
+                    data={data}
+                    pontuacao={activitie.pontuacao}
+                    id={activitie.id}
+                ></QuestaoAberta>})
             
         }
     }

@@ -1,7 +1,6 @@
  DROP DATABASE plataforma;
  use plataforma;
-select * from usuarios;
-
+select * from complecaoAtividade;
  CREATE DATABASE plataforma;
  CREATE TABLE usuarios(
      id int auto_increment not null,
@@ -61,6 +60,6 @@ select * from usuarios;
      FOREIGN KEY (idAtividade) REFERENCES atividade(id),
      idUsuario int not null,
      FOREIGN KEY (idUsuario) REFERENCES usuarios(id),
-     completada boolean not null
+     statusAtividade varchar(20)
  );
 
