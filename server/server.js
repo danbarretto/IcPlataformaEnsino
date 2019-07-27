@@ -298,6 +298,7 @@ app.get('/api/getSubmissions', (req, res) => {
   const selectStr = `SELECT c.*,
    a.jsonAtividade,
    a.titulo,
+   a.pontuacao,
    u.nome,
    u.sobrenome
    FROM complecaoAtividade AS c
@@ -310,5 +311,27 @@ app.get('/api/getSubmissions', (req, res) => {
       return err
     }
     res.send(JSON.stringify(result))
+  })
+})
+
+app.post('/api/updateSubmit', (req, res) => {
+  let postData = req.body
+  const updateStr = `UPDATE complecaoAtividade 
+  SET statusAtividade='Finalizada', feedback='${postData.feedback}'
+  WHERE idAtividade=${postData.idAtividade} AND idUsuario=${postData.idAluno};`
+  con.query(updateStr, (err) => {
+    if (err) {
+      console.log(err)
+      return err
+    }
+    const updatePoints = `UPDATE usuarios SET pontuacao = pontuacao + ${postData.pontuacaoFinal}
+    WHERE id=${postData.idAluno};`
+    con.query(updatePoints, errPoints=>{
+      if (err) {
+        console.log(err)
+        return err
+      }
+      res.sendStatus(200)
+    })
   })
 })
