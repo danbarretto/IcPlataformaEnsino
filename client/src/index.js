@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -11,8 +12,6 @@ import Perfil from './Perfil'
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import CriarConta from './CriarConta';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 
 ReactDOM.render(

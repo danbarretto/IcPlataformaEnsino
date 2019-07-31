@@ -1,10 +1,10 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button';
-import AulaTable from './AulaTable';
+import Button from 'react-bootstrap/Button'
+import AtividadeTable from './AtividadeTable';
 
+export default class BuscaAtividade extends React.Component {
 
-export default class BuscarAula extends React.Component {
 
     constructor(props) {
         super(props)
@@ -13,10 +13,7 @@ export default class BuscarAula extends React.Component {
             tipo: '',
             assunto: '',
             titulo: '',
-            table: null,
-            tableElements: [],
-            showTable: false,
-            hideContent: false,
+            table: null
         }
         this.handleFormChange = this.handleFormChange.bind(this)
     }
@@ -28,25 +25,18 @@ export default class BuscarAula extends React.Component {
         });
     }
 
-    buscarAula() {
-        if (this.state.assunto !== '')
+    buscarAtividade() {
+        if (this.state.assunto !== '') {
             this.setState({
-                table: <AulaTable
+                table: <AtividadeTable
                     option='2'
                     titulo={this.state.titulo}
                     materia={this.state.materia}
-                    tipo={this.state.tipo}
                     assunto={this.state.assunto}
-                    hideContent={this.hidePageContent}
-                ></AulaTable>, showTable: true
+                    tipo={this.state.tipo}
+                />
             })
-        else
-            alert("Preencha os campos obrigatórios!")
-    }
-
-
-    hidePageContent = () => {
-        this.setState({ hideContent: true })
+        }
     }
 
     render() {
@@ -76,27 +66,25 @@ export default class BuscarAula extends React.Component {
                     <Form.Label>Tipo de Aula</Form.Label>
                     <Form.Control name='tipo' onChange={this.handleFormChange} as='select'>
                         <option selected='selected' disabled='disabled'>Selecione um tipo de aula</option>
-                        <option>Texto</option>
-                        <option>Slide</option>
-                        <option>Vídeo</option>
-                        <option>Executável</option>
-                        <option>Jogo Web</option>
+                        <option>Múltipla Escolha</option>
+                        <option>Completar Lacunas</option>
+                        <option>Questão Aberta</option>
                     </Form.Control>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Assunto (obrigatório)</Form.Label>
                     <Form.Control name='assunto' onChange={this.handleFormChange} type='text'></Form.Control>
                     <br></br>
-                    <Button onClick={this.buscarAula.bind(this)}>Buscar</Button>
+                    <Button onClick={this.buscarAtividade.bind(this)}>Buscar</Button>
                 </Form.Group>
 
             </Form>
         </div>
 
         return (<div>
-            {!this.state.hideContent && form}
-            {this.state.showTable && this.state.table}
-
-        </div>)
+            {form}
+            {this.state.table}
+        </div>
+        )
     }
 }

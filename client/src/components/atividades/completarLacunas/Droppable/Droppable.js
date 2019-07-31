@@ -9,7 +9,7 @@ export default class Droppable extends React.Component {
 
     drop = (e) =>{
         e.preventDefault()
-        const data = e.dataTransfer.getData('transfer')        
+        const data = e.dataTransfer.getData('text/plain')        
         e.target.appendChild(document.getElementById(data))
         
     }

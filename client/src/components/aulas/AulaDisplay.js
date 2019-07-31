@@ -62,7 +62,7 @@ class AulaDisplay extends React.Component {
             case "Vídeo":
                 content = <Player
                     playsInline
-                    src={`http://localhost:4000/api/uploads/${this.props.element.caminhoArquivo}`}
+                    src={`http://172.28.235.147:4000/api/uploads/${this.props.element.caminhoArquivo}`}
                 />
                 break;
             case "Slide":

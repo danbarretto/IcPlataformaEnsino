@@ -57,7 +57,7 @@ export default class AtividadeDisplay extends React.Component {
 
         return (
             <div>
-                <AtividadeTable onChangeActivitie={this.changeCurrentActivitie}></AtividadeTable>
+                <AtividadeTable option='1' onChangeActivitie={this.changeCurrentActivitie}></AtividadeTable>
                 {this.state.rendered}
             </div>
         )

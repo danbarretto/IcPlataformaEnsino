@@ -8,7 +8,7 @@ export default class Draggable extends React.Component {
     }
 
     drag = (e) =>{
-        e.dataTransfer.setData('transfer', e.target.id)
+        e.dataTransfer.setData('text/plain', e.target.id)
     }
 
     noAllowDrop = (e)=>{

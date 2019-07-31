@@ -6,6 +6,7 @@ import Nav from 'react-bootstrap/Nav'
 import AtividadeDisplay from './components/atividades/AtividadeDisplay';
 import CriarAtividade from './components/atividades/CriarAtividade';
 import Submisssoes from './components/atividades/Submissoes';
+import BuscaAtividade from './components/atividades/BuscaAtividade';
 
 class Atividades extends React.Component {
     constructor(props) {
@@ -16,13 +17,13 @@ class Atividades extends React.Component {
             searchActivity: false,
             submissions:false
         }
-        this.searctActivities = this.searctActivities.bind(this)
+        this.searchActivities = this.searchActivities.bind(this)
         this.showActivities = this.showActivities.bind(this)
         this.createActivity = this.createActivity.bind(this)
         this.showSubmissions = this.showSubmissions.bind(this)
     }
 
-    searctActivities() {
+    searchActivities() {
         this.setState({
             showActivities: false,
             createActivity: false,
@@ -91,7 +92,7 @@ class Atividades extends React.Component {
                         </Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
-                        <Nav.Link eventKey="buscarAtividade" onClick={this.searctActivities}>
+                        <Nav.Link eventKey="buscarAtividade" onClick={this.searchActivities}>
                             Buscar Atividades
                         </Nav.Link>
                     </Nav.Item>
@@ -112,7 +113,7 @@ class Atividades extends React.Component {
                     <br></br>
                     {this.state.showActivities && <AtividadeDisplay></AtividadeDisplay>}
                     {this.state.createActivity && <CriarAtividade></CriarAtividade>}
-                    {this.state.searchActivity && 'c'}
+                    {this.state.searchActivity && <BuscaAtividade></BuscaAtividade>}
                     {this.state.submissions && <Submisssoes></Submisssoes>}
                 </div>
             </Jumbotron>

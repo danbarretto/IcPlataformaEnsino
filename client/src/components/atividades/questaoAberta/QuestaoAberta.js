@@ -45,7 +45,7 @@ export default class QuestaoAberta extends React.Component {
     render() {
         return (
             <Form>
-                <p>{this.props.data.enunciado}</p>
+                <p style={{backgroundColor:'#F7F7F7', borderRadius:'5px', padding:'10px', fontSize:'20px'}}>{this.props.data.enunciado}</p>
                 <Form.Label>Digite sua Resposta</Form.Label>
                 <Form.Control onChange={this.handleChange} name='resposta' as='textarea'></Form.Control>
                 <Button onClick={this.handleSubmit.bind(this)} style={{margin:'10px'}}>Enviar</Button>

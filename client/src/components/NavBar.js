@@ -74,7 +74,7 @@ class NavBar extends React.Component {
   render() {
 
     const popEntrar = (
-      <Popover id="popover-basic" title="Entrar">
+      <Popover style={{padding:'15px'}} id="popover-basic" title="Entrar">
         <Form action="/" method="post">
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email</Form.Label>
