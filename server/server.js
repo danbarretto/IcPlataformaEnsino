@@ -326,7 +326,7 @@ app.post('/api/updateSubmit', (req, res) => {
     }
     const updatePoints = `UPDATE usuarios SET pontuacao = pontuacao + ${postData.pontuacaoFinal}
     WHERE id=${postData.idAluno};`
-    con.query(updatePoints, errPoints=>{
+    con.query(updatePoints, errPoints => {
       if (err) {
         console.log(err)
         return err
@@ -336,16 +336,19 @@ app.post('/api/updateSubmit', (req, res) => {
   })
 })
 
-app.get('/api/searchActivities', (req, res)=>{
-  const selectStr =`SELECT a.*, u.nome, u.sobrenome FROM atividade AS a LEFT JOIN
-  usuarios AS u ON a.idUsuarioCriador = u.id WHERE a.titulo LIKE '%${req.query.titulo}%'
-  AND a.materia LIKE'%${req.query.materia}%' AND a.assunto LIKE '%${req.query.assunto}%'`
-  
-  con.query(selectStr, (result, err)=>{
-    if(err){
+app.get('/api/searchActivities', (req, res) => {
+  const selectStr = `SELECT a.*, u.nome, u.sobrenome, c.statusAtividade FROM atividade AS a 
+  LEFT JOIN usuarios AS u ON a.idUsuarioCriador = u.id
+  LEFT JOIN complecaoAtividade as c ON c.idUsuario = u.id AND a.id = c.idAtividade 
+  WHERE a.titulo LIKE '%${req.query.titulo}%' AND a.materia LIKE'%${req.query.materia}%'
+  AND a.assunto LIKE '%${req.query.assunto}%'`
+
+  con.query(selectStr, (err, result) => {
+    if (err) {
       console.log(err)
       return (err)
     }
+    //res.send(JSON.stringify(result))
     res.send(JSON.stringify(result))
-  }) 
+  })
 })

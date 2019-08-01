@@ -106,7 +106,6 @@ class Atividades extends React.Component {
             <Jumbotron className='fill'>
                 <div className='container' style={{ backgroundColor: '#F8F8F8', borderRadius: '5px', padding: '10px' }}>
                     <h1>Atividades</h1>
-
                     {atividadeNav}
                     <br></br>
                     <br></br>

@@ -19,7 +19,7 @@ class MainContent extends Component{
                 <Carousel.Item>
                     <img style={centerImg}
                     className="d-block w-100"
-                        src="https://static.noticiasaominuto.com.br/stockimages/1920/naom_5a5f65d5dcffa.jpg?1522858584"
+                        src="https://s-i.huffpost.com/gen/1579454/images/o-SCHOOL-KIDS-facebook.jpg"
                     alt="First slide"
                 />
                     <Carousel.Caption>
